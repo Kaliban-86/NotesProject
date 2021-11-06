@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -54,10 +55,21 @@ public class MainActivity extends AppCompatActivity {
             contentValues.put(NotesContract.NotesEntry.COLUMN_DESCRIPTION,note.getDescription());
             contentValues.put(NotesContract.NotesEntry.COLUMN_DAY_OF_WEEK,note.getDayOfWeek());
             contentValues.put(NotesContract.NotesEntry.COLUMN_PRIORITY, note.getPriority());
-
             sqLiteDatabase.insert(NotesContract.NotesEntry.TABLE_NAME, null,contentValues);
-
         }
+
+        ArrayList<Note> notesDB = new ArrayList<>();
+        Cursor cursor = sqLiteDatabase.query(NotesContract.NotesEntry.TABLE_NAME, null,null,null,null,null,null,null);
+
+        while (cursor.moveToNext()){
+            @SuppressLint("Range") String title = cursor.getString(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_TITLE));
+            @SuppressLint("Range") String description = cursor.getString(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_DESCRIPTION));
+            @SuppressLint("Range") String dayOfWeek = cursor.getString(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_DAY_OF_WEEK));
+            @SuppressLint("Range") int priority = cursor.getInt(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_PRIORITY));
+            Note note = new Note(title,description,dayOfWeek,priority);
+            notesDB.add(note);
+        }
+        cursor.close();
 
 
         recyclerView = findViewById(R.id.recyclerView);
