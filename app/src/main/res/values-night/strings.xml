@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="note_title">Заголовок</string>
+    <string name="note_discription">Описание заметки</string>
+    <string name="highest_priority">Высший</string>
+    <string name="middle_priority">Средний</string>
+    <string name="minimal_priority">RadioButton</string>
+    <string name="save_new_note">Сохранить</string>
+</resources>

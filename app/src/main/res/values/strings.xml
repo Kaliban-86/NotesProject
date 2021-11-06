@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Notes</string>
+    <string name="note_title">Заголовок</string>
+    <string name="note_discription">Описание заметки</string>
+    <string name="highest_priority">1</string>
+    <string name="middle_priority">2</string>
+    <string name="minimal_priority">3</string>
+    <string name="save_new_note">Сохранить</string>
+
+
+    <string-array name="days_of_week">
+        <item>"Понедельник"</item>
+        <item>"Вторник"</item>
+        <item>"Среда"</item>
+        <item>"Четверг"</item>
+        <item>"Пятница"</item>
+        <item>"Суббота"</item>
+        <item>"Воскресенье"</item>
+    </string-array>
+</resources>
