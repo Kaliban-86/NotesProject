@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -24,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton floatingActionButtonAddNote;
     public static final ArrayList<Note> notes = new ArrayList<>();
     NotesAdapter notesAdapter;
+    NotesDBHelper notesDBHelper;
+    SQLiteDatabase sqLiteDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +45,22 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intentAddNewNote);
         });
 
-        recyclerView = findViewById(R.id.recyclerView);
+        notesDBHelper = new NotesDBHelper(this);
+        sqLiteDatabase = notesDBHelper.getWritableDatabase();
 
+        for (Note note : notes) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(NotesContract.NotesEntry.COLUMN_TITLE,note.getTitle());
+            contentValues.put(NotesContract.NotesEntry.COLUMN_DESCRIPTION,note.getDescription());
+            contentValues.put(NotesContract.NotesEntry.COLUMN_DAY_OF_WEEK,note.getDayOfWeek());
+            contentValues.put(NotesContract.NotesEntry.COLUMN_PRIORITY, note.getPriority());
+
+            sqLiteDatabase.insert(NotesContract.NotesEntry.TABLE_NAME, null,contentValues);
+
+        }
+
+
+        recyclerView = findViewById(R.id.recyclerView);
 
         notesAdapter = new NotesAdapter(notes);
         notesAdapter.setOnNoteClicklistener(new NotesAdapter.onNoteClicklistener() {
@@ -59,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
 
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -68,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-               remove(viewHolder.getAdapterPosition());
+                remove(viewHolder.getAdapterPosition());
             }
         });
 
