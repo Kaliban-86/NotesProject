@@ -48,27 +48,10 @@ public class MainActivity extends AppCompatActivity {
 
         notesDBHelper = new NotesDBHelper(this);
         sqLiteDatabase = notesDBHelper.getWritableDatabase();
-        sqLiteDatabase.delete(NotesContract.NotesEntry.TABLE_NAME, null,null);
-
-
-        Cursor cursor = sqLiteDatabase.query(NotesContract.NotesEntry.TABLE_NAME, null,null,null,null,null,null,null);
-
-        while (cursor.moveToNext()){
-            @SuppressLint("Range") String title = cursor.getString(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_TITLE));
-            @SuppressLint("Range") String description = cursor.getString(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_DESCRIPTION));
-            @SuppressLint("Range") String dayOfWeek = cursor.getString(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_DAY_OF_WEEK));
-            @SuppressLint("Range") int priority = cursor.getInt(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_PRIORITY));
-            Note note = new Note(title,description,dayOfWeek,priority);
-            notes.add(note);
-        }
-        cursor.close();
-
-
+        getData();
         recyclerView = findViewById(R.id.recyclerView);
-
         notesAdapter = new NotesAdapter(notes);
         notesAdapter.setOnNoteClicklistener(new NotesAdapter.onNoteClicklistener() {
-
             @Override
             public void onNoteClick(int position) {
                 Toast.makeText(MainActivity.this, "Нажат номер: " + position, Toast.LENGTH_SHORT).show();
@@ -82,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -102,7 +84,30 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("NotifyDataSetChanged")
     private void remove(int position) {
-        notes.remove(position);
+        int id = notes.get(position).getId();
+        String were = NotesContract.NotesEntry._ID + " = ?";
+        String[] wereArgs = new String[]{Integer.toString(id)};
+        sqLiteDatabase.delete(NotesContract.NotesEntry.TABLE_NAME, were, wereArgs);
+        getData();
         notesAdapter.notifyDataSetChanged();
+    }
+
+    private void getData() {
+        notes.clear();
+        String selection = NotesContract.NotesEntry.COLUMN_PRIORITY + " > ?";
+        String[] selectionArgs = new String[]{"2"};
+        Cursor cursor = sqLiteDatabase.query(NotesContract.NotesEntry.TABLE_NAME, null, null,
+                null, null, null, NotesContract.NotesEntry.COLUMN_PRIORITY, null);
+
+        while (cursor.moveToNext()) {
+            @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex(NotesContract.NotesEntry._ID));
+            @SuppressLint("Range") String title = cursor.getString(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_TITLE));
+            @SuppressLint("Range") String description = cursor.getString(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_DESCRIPTION));
+            @SuppressLint("Range") int dayOfWeek = cursor.getInt(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_DAY_OF_WEEK));
+            @SuppressLint("Range") int priority = cursor.getInt(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_PRIORITY));
+            Note note = new Note(id, title, description, dayOfWeek, priority);
+            notes.add(note);
+        }
+        cursor.close();
     }
 }

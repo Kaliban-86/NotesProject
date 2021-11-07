@@ -11,7 +11,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="3dp"
-        android:text="@string/note_title"
+        android:elegantTextHeight="true"
+        android:hint="@string/note_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="3dp"
         android:gravity="start|top"
-        android:text="@string/note_discription"
+        android:hint="@string/note_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextNoteTitle" />
