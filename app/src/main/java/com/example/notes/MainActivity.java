@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onLongClick(int position) {
-                remove(position);
+                //remove(position);
             }
 
         });
