@@ -3,17 +3,17 @@ package com.example.notes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,9 +26,10 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     FloatingActionButton floatingActionButtonAddNote;
     private final ArrayList<Note> notes = new ArrayList<>();
-    NotesAdapter notesAdapter;
-    NotesDBHelper notesDBHelper;
-    SQLiteDatabase sqLiteDatabase;
+    private NotesAdapter notesAdapter;
+    private MainViewModel viewModel;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +40,16 @@ public class MainActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
-        floatingActionButtonAddNote = findViewById(R.id.floatingActionButtonAddNote);
 
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class); // хуй его знает правильно или нет!!!!!!!!
+
+        floatingActionButtonAddNote = findViewById(R.id.floatingActionButtonAddNote);
         floatingActionButtonAddNote.setOnClickListener(view -> {
             Intent intentAddNewNote = new Intent(this, NewNote.class);
             startActivity(intentAddNewNote);
         });
 
-        notesDBHelper = new NotesDBHelper(this);
-        sqLiteDatabase = notesDBHelper.getWritableDatabase();
+
         getData();
         recyclerView = findViewById(R.id.recyclerView);
         notesAdapter = new NotesAdapter(notes);
@@ -84,30 +86,17 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("NotifyDataSetChanged")
     private void remove(int position) {
-        int id = notes.get(position).getId();
-        String were = NotesContract.NotesEntry._ID + " = ?";
-        String[] wereArgs = new String[]{Integer.toString(id)};
-        sqLiteDatabase.delete(NotesContract.NotesEntry.TABLE_NAME, were, wereArgs);
-        getData();
-        notesAdapter.notifyDataSetChanged();
+        Note note = notes.get(position);
+        viewModel.deleteNote(note);
     }
 
-    private void getData() {
-        notes.clear();
-        String selection = NotesContract.NotesEntry.COLUMN_PRIORITY + " > ?";
-        String[] selectionArgs = new String[]{"2"};
-        Cursor cursor = sqLiteDatabase.query(NotesContract.NotesEntry.TABLE_NAME, null, null,
-                null, null, null, NotesContract.NotesEntry.COLUMN_PRIORITY, null);
-
-        while (cursor.moveToNext()) {
-            @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex(NotesContract.NotesEntry._ID));
-            @SuppressLint("Range") String title = cursor.getString(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_TITLE));
-            @SuppressLint("Range") String description = cursor.getString(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_DESCRIPTION));
-            @SuppressLint("Range") int dayOfWeek = cursor.getInt(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_DAY_OF_WEEK));
-            @SuppressLint("Range") int priority = cursor.getInt(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_PRIORITY));
-            Note note = new Note(id, title, description, dayOfWeek, priority);
-            notes.add(note);
-        }
-        cursor.close();
+    @SuppressLint("NotifyDataSetChanged")
+    private void getData(){
+        LiveData <List<Note>> notesFromDB = viewModel.getNotes();
+        notesFromDB.observe(this, notesFromLiveData -> {
+            notes.clear();
+            notes.addAll(notesFromLiveData);
+            notesAdapter.notifyDataSetChanged();
+        });
     }
 }
