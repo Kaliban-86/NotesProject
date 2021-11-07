@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     FloatingActionButton floatingActionButtonAddNote;
-    public static final ArrayList<Note> notes = new ArrayList<>();
+    private final ArrayList<Note> notes = new ArrayList<>();
     NotesAdapter notesAdapter;
     NotesDBHelper notesDBHelper;
     SQLiteDatabase sqLiteDatabase;
@@ -48,17 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
         notesDBHelper = new NotesDBHelper(this);
         sqLiteDatabase = notesDBHelper.getWritableDatabase();
+        sqLiteDatabase.delete(NotesContract.NotesEntry.TABLE_NAME, null,null);
 
-        for (Note note : notes) {
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(NotesContract.NotesEntry.COLUMN_TITLE,note.getTitle());
-            contentValues.put(NotesContract.NotesEntry.COLUMN_DESCRIPTION,note.getDescription());
-            contentValues.put(NotesContract.NotesEntry.COLUMN_DAY_OF_WEEK,note.getDayOfWeek());
-            contentValues.put(NotesContract.NotesEntry.COLUMN_PRIORITY, note.getPriority());
-            sqLiteDatabase.insert(NotesContract.NotesEntry.TABLE_NAME, null,contentValues);
-        }
 
-        ArrayList<Note> notesDB = new ArrayList<>();
         Cursor cursor = sqLiteDatabase.query(NotesContract.NotesEntry.TABLE_NAME, null,null,null,null,null,null,null);
 
         while (cursor.moveToNext()){
@@ -67,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             @SuppressLint("Range") String dayOfWeek = cursor.getString(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_DAY_OF_WEEK));
             @SuppressLint("Range") int priority = cursor.getInt(cursor.getColumnIndex(NotesContract.NotesEntry.COLUMN_PRIORITY));
             Note note = new Note(title,description,dayOfWeek,priority);
-            notesDB.add(note);
+            notes.add(note);
         }
         cursor.close();
 

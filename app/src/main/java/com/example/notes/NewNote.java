@@ -38,16 +38,13 @@ public class NewNote extends AppCompatActivity {
             String newNoteTitle = editTextNoteTitle.getText().toString().trim();
             String newNoteDiscription = editTextNoteDiscription.getText().toString();
             String newNoteDayOfWeek = spinnerDaysOfWeek.getSelectedItem().toString();
-
             int radioButtonID = radioGroupPriority.getCheckedRadioButtonId();
             RadioButton radioButton = findViewById(radioButtonID);
             int newNotePriority = Integer.parseInt(radioButton.getText().toString());
-
             Note newNote = new Note(newNoteTitle, newNoteDiscription, newNoteDayOfWeek, newNotePriority);
-            MainActivity.notes.add(newNote);
-
             Intent intentToMain = new Intent(this, MainActivity.class);
             startActivity(intentToMain);
         });
+
     }
 }
