@@ -1,11 +1,19 @@
 package com.example.notes;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "notes")
 public class Note {
+
+    @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;
     private String description;
     private int dayOfWeek;
     private int priority;
+    private String date;
 
 
     public Note(int id, String title, String description, int dayOfWeek, int priority) {
@@ -14,6 +22,47 @@ public class Note {
         this.description = description;
         this.dayOfWeek = dayOfWeek;
         this.priority = priority;
+    }
+
+//    @Ignore
+//    public Note(String title, String description, int dayOfWeek, int priority) {
+//        this.title = title;
+//        this.description = description;
+//        this.dayOfWeek = dayOfWeek;
+//        this.priority = priority;
+//    }
+
+    @Ignore
+    public Note(String title, String description, int dayOfWeek, int priority, String date) {
+        this.title = title;
+        this.description = description;
+        this.dayOfWeek = dayOfWeek;
+        this.priority = priority;
+        this.date = date;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setDayOfWeek(int dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public int getId() {
@@ -34,6 +83,10 @@ public class Note {
 
     public int getPriority() {
         return priority;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public static String getDayAsString(int position) {

@@ -56,6 +56,8 @@
             android:layout_weight="1"
             android:background="@android:color/holo_red_light"
             android:checked="true"
+            android:layout_margin="3dp"
+            android:paddingStart="7dp"
             android:text="@string/highest_priority" />
 
         <RadioButton
@@ -64,6 +66,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/holo_orange_light"
+            android:layout_margin="3dp"
+            android:paddingStart="7dp"
             android:text="@string/middle_priority" />
 
         <RadioButton
@@ -72,6 +76,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/holo_green_light"
+            android:layout_margin="3dp"
+            android:paddingStart="7dp"
             android:text="@string/minimal_priority" />
     </RadioGroup>
 
@@ -85,4 +91,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroupePriority" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

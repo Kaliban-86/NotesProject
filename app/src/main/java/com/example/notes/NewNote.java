@@ -1,6 +1,7 @@
 package com.example.notes;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -14,6 +15,9 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class NewNote extends AppCompatActivity {
 
     EditText editTextNoteTitle;
@@ -21,8 +25,8 @@ public class NewNote extends AppCompatActivity {
     Spinner spinnerDaysOfWeek;
     RadioGroup radioGroupPriority;
     Button buttonSaveNewNote;
-    NotesDBHelper dbHelper;
-    SQLiteDatabase database;
+    private  MainViewModel viewModel;
+
 
 
     @Override
@@ -30,14 +34,14 @@ public class NewNote extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_note);
 
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         editTextNoteTitle = findViewById(R.id.editTextNoteTitle);
         editTextNoteDiscription = findViewById(R.id.editTextNoteDiscription);
         spinnerDaysOfWeek = findViewById(R.id.spinnerDaysOfWeek);
         radioGroupPriority = findViewById(R.id.radioGroupePriority);
         buttonSaveNewNote = findViewById(R.id.buttonSaveNewNote);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-        dbHelper = new NotesDBHelper(this);
-        database = dbHelper.getWritableDatabase();
 
         buttonSaveNewNote.setOnClickListener(view -> {
 
@@ -49,14 +53,8 @@ public class NewNote extends AppCompatActivity {
             int newNotePriority = Integer.parseInt(radioButton.getText().toString());
 
             if (isFeeld(newNoteTitle, newNoteDescription)) {
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(NotesContract.NotesEntry.COLUMN_TITLE, newNoteTitle);
-                contentValues.put(NotesContract.NotesEntry.COLUMN_DESCRIPTION, newNoteDescription);
-                contentValues.put(NotesContract.NotesEntry.COLUMN_DAY_OF_WEEK, newNoteDayOfWeek + 1);
-                contentValues.put(NotesContract.NotesEntry.COLUMN_PRIORITY, newNotePriority);
-
-                database.insert(NotesContract.NotesEntry.TABLE_NAME, null, contentValues);
-
+                Note note = new Note(newNoteTitle,newNoteDescription,newNoteDayOfWeek,newNotePriority,simpleDateFormat.format(new Date()));
+                viewModel.insertNote(note);
                 Intent intentToMain = new Intent(this, MainActivity.class);
                 startActivity(intentToMain);
             } else {
