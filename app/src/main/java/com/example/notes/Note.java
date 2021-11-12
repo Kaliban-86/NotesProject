@@ -13,6 +13,7 @@ public class Note {
     private String description;
     private int dayOfWeek;
     private int priority;
+    private String date;
 
 
     public Note(int id, String title, String description, int dayOfWeek, int priority) {
@@ -23,14 +24,22 @@ public class Note {
         this.priority = priority;
     }
 
+//    @Ignore
+//    public Note(String title, String description, int dayOfWeek, int priority) {
+//        this.title = title;
+//        this.description = description;
+//        this.dayOfWeek = dayOfWeek;
+//        this.priority = priority;
+//    }
+
     @Ignore
-    public Note(String title, String description, int dayOfWeek, int priority) {
+    public Note(String title, String description, int dayOfWeek, int priority, String date) {
         this.title = title;
         this.description = description;
         this.dayOfWeek = dayOfWeek;
         this.priority = priority;
+        this.date = date;
     }
-
 
     public void setId(int id) {
         this.id = id;
@@ -52,6 +61,10 @@ public class Note {
         this.priority = priority;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public int getId() {
         return id;
     }
@@ -70,6 +83,10 @@ public class Note {
 
     public int getPriority() {
         return priority;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public static String getDayAsString(int position) {

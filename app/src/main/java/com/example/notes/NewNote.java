@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +16,8 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.Date;
+
 public class NewNote extends AppCompatActivity {
 
     EditText editTextNoteTitle;
@@ -22,9 +25,8 @@ public class NewNote extends AppCompatActivity {
     Spinner spinnerDaysOfWeek;
     RadioGroup radioGroupPriority;
     Button buttonSaveNewNote;
-    private  MainViewModel viewModel;
-
-
+    private MainViewModel viewModel;
+    Date date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,23 +40,23 @@ public class NewNote extends AppCompatActivity {
         radioGroupPriority = findViewById(R.id.radioGroupePriority);
         buttonSaveNewNote = findViewById(R.id.buttonSaveNewNote);
 
-
         buttonSaveNewNote.setOnClickListener(view -> {
-
             String newNoteTitle = editTextNoteTitle.getText().toString().trim();
             String newNoteDescription = editTextNoteDiscription.getText().toString();
             int newNoteDayOfWeek = spinnerDaysOfWeek.getSelectedItemPosition() + 1;
             int radioButtonID = radioGroupPriority.getCheckedRadioButtonId();
             RadioButton radioButton = findViewById(radioButtonID);
             int newNotePriority = Integer.parseInt(radioButton.getText().toString());
+            date = new Date();
+            String newNoteDate = date.toString();
 
             if (isFeeld(newNoteTitle, newNoteDescription)) {
-                Note note = new Note(newNoteTitle,newNoteDescription,newNoteDayOfWeek,newNotePriority);
+                Note note = new Note(newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, newNoteDate);
                 viewModel.insertNote(note);
                 Intent intentToMain = new Intent(this, MainActivity.class);
                 startActivity(intentToMain);
             } else {
-                Toast.makeText(this,"Необходимо заполнить все поля!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Необходимо заполнить все поля!", Toast.LENGTH_SHORT).show();
             }
         });
     }

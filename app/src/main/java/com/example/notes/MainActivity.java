@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intentAddNewNote);
         });
 
-
+        //deleteAll();
         getData();
         recyclerView = findViewById(R.id.recyclerView);
         notesAdapter = new NotesAdapter(notes);
@@ -96,5 +96,9 @@ public class MainActivity extends AppCompatActivity {
         notesFromDB.observe(this, notesFromLiveData -> {
             notesAdapter.setNotes(notesFromLiveData);
         });
+    }
+
+    private void deleteAll (){
+        viewModel.deleteAllNotes();
     }
 }
