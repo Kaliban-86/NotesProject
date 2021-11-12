@@ -88,7 +88,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
             textViewDayOfWeek = itemView.findViewById(R.id.textViewDayOfWeek);
 
             //***********//
-            textViewDate = itemView.findViewById(R.id.editTextDate);
+            textViewDate = itemView.findViewById(R.id.textViewDate);
             //***********//
 
             itemView.setOnClickListener(view -> {

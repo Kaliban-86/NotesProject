@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 @Database(entities = {Note.class},version = 1, exportSchema = false)
 public abstract class NoteDatabase extends RoomDatabase {
     private static NoteDatabase database;
-    private static final String DB_NAME = "notes2.db";
+    private static final String DB_NAME = "notes3.db";
     private static final Object LOCK = new Object();
 
     public static NoteDatabase getInstance(Context context) {
