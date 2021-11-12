@@ -43,7 +43,7 @@ public class NewNote extends AppCompatActivity {
 
             String newNoteTitle = editTextNoteTitle.getText().toString().trim();
             String newNoteDescription = editTextNoteDiscription.getText().toString();
-            int newNoteDayOfWeek = spinnerDaysOfWeek.getSelectedItemPosition();
+            int newNoteDayOfWeek = spinnerDaysOfWeek.getSelectedItemPosition() + 1;
             int radioButtonID = radioGroupPriority.getCheckedRadioButtonId();
             RadioButton radioButton = findViewById(radioButtonID);
             int newNotePriority = Integer.parseInt(radioButton.getText().toString());

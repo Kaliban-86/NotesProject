@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     FloatingActionButton floatingActionButtonAddNote;
-    private final ArrayList<Note> notes = new ArrayList<>();
+    private final List<Note> notes = new ArrayList<>();
     private NotesAdapter notesAdapter;
     private MainViewModel viewModel;
 
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("NotifyDataSetChanged")
     private void remove(int position) {
-        Note note = notes.get(position);
+        Note note = notesAdapter.getNotes().get(position);
         viewModel.deleteNote(note);
     }
 
@@ -94,9 +94,7 @@ public class MainActivity extends AppCompatActivity {
     private void getData(){
         LiveData <List<Note>> notesFromDB = viewModel.getNotes();
         notesFromDB.observe(this, notesFromLiveData -> {
-            notes.clear();
-            notes.addAll(notesFromLiveData);
-            notesAdapter.notifyDataSetChanged();
+            notesAdapter.setNotes(notesFromLiveData);
         });
     }
 }
