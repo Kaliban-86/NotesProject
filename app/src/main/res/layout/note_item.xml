@@ -23,6 +23,7 @@
             android:textColor="@color/white"
             android:textSize="14dp"
             android:textStyle="bold"
+            android:layout_margin="3dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,6 +34,7 @@
             android:layout_height="wrap_content"
             android:padding="3dp"
             android:textSize="14dp"
+            android:layout_margin="3dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
@@ -44,6 +46,7 @@
             android:gravity="center"
             android:padding="3dp"
             android:textSize="14dp"
+            android:layout_margin="3dp"
             app:layout_constraintStart_toEndOf="@+id/textViewTitleDayOfWeek"
             app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
 
@@ -53,6 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="3dp"
+            android:layout_margin="3dp"
             android:text="День недели: "
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
@@ -61,8 +65,19 @@
             android:id="@+id/textViewDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:padding="3dp"
+            android:layout_margin="3dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textViewDateTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitleDayOfWeek" />
+
+        <TextView
+            android:id="@+id/textViewDateTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date_of_create"
+            android:padding="3dp"
+            android:layout_margin="3dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewTitleDayOfWeek" />
 
