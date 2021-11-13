@@ -5,7 +5,7 @@
     <string name="highest_priority">1</string>
     <string name="middle_priority">2</string>
     <string name="minimal_priority">3</string>
-    <string name="save_new_note">Сохранить</string>
+    <string name="save_new_note">Сохранить заметку</string>
     <string name="date_of_create">Дата создания:</string>
 
 

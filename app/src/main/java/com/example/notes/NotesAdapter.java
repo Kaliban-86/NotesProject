@@ -44,7 +44,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         Note note = notes.get(position);
         holder.textViewTitle.setText(note.getTitle());
         holder.textViewDescription.setText(note.getDescription());
-        holder.textViewDayOfWeek.setText(Note.getDayAsString(note.getDayOfWeek()));
+        //holder.textViewDayOfWeek.setText(Note.getDayAsString(note.getDayOfWeek()));
         holder.textViewDate.setText(note.getDate());
 
         int colorID;
@@ -75,7 +75,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
         TextView textViewTitle;
         TextView textViewDescription;
-        TextView textViewDayOfWeek;
+        //TextView textViewDayOfWeek;
 
         //***********//
         TextView textViewDate;
@@ -85,7 +85,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
             textViewDescription = itemView.findViewById(R.id.textViewDescription);
-            textViewDayOfWeek = itemView.findViewById(R.id.textViewDayOfWeek);
+            //textViewDayOfWeek = itemView.findViewById(R.id.textViewDayOfWeek);
 
             //***********//
             textViewDate = itemView.findViewById(R.id.textViewDate);
