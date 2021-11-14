@@ -78,4 +78,9 @@ public class NewNote extends AppCompatActivity {
     private boolean isFeeld(String title, String description) {
         return !title.isEmpty() && !description.isEmpty();
     }
+
+    public void chooseData(View view) {
+        CustomDialogFragment dialogFragment = new CustomDialogFragment();
+        dialogFragment.show(getSupportFragmentManager(),"custom");
+    }
 }
