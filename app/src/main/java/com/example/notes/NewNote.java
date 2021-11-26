@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -27,8 +29,10 @@ public class NewNote extends AppCompatActivity {
     private MainViewModel viewModel;
     CalendarView calendarView;
     String dateOf;
+    Dialog dialogSetData;
 
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,17 +44,14 @@ public class NewNote extends AppCompatActivity {
         //spinnerDaysOfWeek = findViewById(R.id.spinnerDaysOfWeek);
         radioGroupPriority = findViewById(R.id.radioGroupPriority);
         buttonSaveNewNote = findViewById(R.id.buttonSaveNewNote);
-        calendarView = findViewById(R.id.calendarViewDateOf);
+        //calendarView = findViewById(R.id.calendarViewSetData);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
+        dialogSetData = new Dialog(this);
+        //dialogSetData.setTitle("Выберите дату");
+        dialogSetData.setContentView(R.layout.dialog);
 
-        calendarView.setOnDateChangeListener((calendarView, i, i1, i2) -> {
-            int Y = i;
-            int M = i1 + 1;
-            int D = i2;
-            dateOf = D + "-" + M + "-" + Y;
-        });
-
+        calendarView = dialogSetData.findViewById(R.id.calendarViewSetData);
         buttonSaveNewNote.setOnClickListener(view -> {
 
             String newNoteTitle = editTextNoteTitle.getText().toString().trim();
@@ -60,7 +61,7 @@ public class NewNote extends AppCompatActivity {
             RadioButton radioButton = findViewById(radioButtonID);
             int newNotePriority = Integer.parseInt(radioButton.getText().toString());
 
-            Toast.makeText(this, dateOf, Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, dateOf, Toast.LENGTH_SHORT).show();
 
 
             if (isFeeld(newNoteTitle, newNoteDescription)) {
@@ -80,7 +81,17 @@ public class NewNote extends AppCompatActivity {
     }
 
     public void chooseData(View view) {
-        CustomDialogFragment dialogFragment = new CustomDialogFragment();
-        dialogFragment.show(getSupportFragmentManager(),"custom");
+        dialogSetData.show();
+        calendarView.setOnDateChangeListener((calendarView, i, i1, i2) -> {
+            int Y = i;
+            int M = i1 + 1;
+            int D = i2;
+            dateOf = D + "-" + M + "-" + Y;
+        });
+    }
+
+    public void saveDate(View view) {
+        Toast.makeText(this, dateOf, Toast.LENGTH_SHORT).show();
+        dialogSetData.cancel();
     }
 }
