@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class NewNote extends AppCompatActivity {
 
@@ -56,8 +57,8 @@ public class NewNote extends AppCompatActivity {
         dialogSetData.setContentView(R.layout.dialog);
 
         calendarView = dialogSetData.findViewById(R.id.calendarViewSetData);
-        buttonSaveNewNote.setOnClickListener(view -> {
 
+        buttonSaveNewNote.setOnClickListener(view -> {
             String newNoteTitle = editTextNoteTitle.getText().toString().trim();
             String newNoteDescription = editTextNoteDiscription.getText().toString();
             int newNoteDayOfWeek = 0;
@@ -65,11 +66,10 @@ public class NewNote extends AppCompatActivity {
             RadioButton radioButton = findViewById(radioButtonID);
             int newNotePriority = Integer.parseInt(radioButton.getText().toString());
 
+            if (isFeeld(newNoteTitle, newNoteDescription, yearOfCompletion, monthOfCompletion, dayOfCompletion)) {
 
-            if (isFeeld(newNoteTitle, newNoteDescription, yearOfCompletion,monthOfCompletion,dayOfCompletion)) {
-                Note note = new Note(newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, simpleDateFormat.format(new Date()), yearOfCompletion,monthOfCompletion,dayOfCompletion);
+                Note note = new Note(newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, simpleDateFormat.format(new Date()), yearOfCompletion, monthOfCompletion, dayOfCompletion);
                 viewModel.insertNote(note);
-
                 Intent intentToMain = new Intent(this, MainActivity.class);
                 startActivity(intentToMain);
             } else {
@@ -93,8 +93,13 @@ public class NewNote extends AppCompatActivity {
     }
 
     public void saveDate(View view) {
-        Toast.makeText(this, dateOf, Toast.LENGTH_SHORT).show();
-        textViewDateOfCompletion.setText(dateOf);
-        dialogSetData.cancel();
+        Date currentDate = new Date();
+        Calendar dateOfCompletion = new GregorianCalendar(yearOfCompletion, monthOfCompletion - 1, dayOfCompletion + 1);
+        if (currentDate.before(dateOfCompletion.getTime())) {
+            textViewDateOfCompletion.setText(dateOf);
+            dialogSetData.cancel();
+        } else {
+            Toast.makeText(this, "Выберите дату не позже текущей!", Toast.LENGTH_SHORT).show();
+        }
     }
 }
