@@ -15,8 +15,6 @@ import java.util.List;
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder> {
 
     private onNoteClicklistener onNoteClicklistener;
-
-
     List<Note> notes;
 
     public NotesAdapter(List<Note> notes) {
@@ -39,13 +37,14 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         return new NotesViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull NotesViewHolder holder, int position) {
         Note note = notes.get(position);
         holder.textViewTitle.setText(note.getTitle());
         holder.textViewDescription.setText(note.getDescription());
-        //holder.textViewDayOfWeek.setText(Note.getDayAsString(note.getDayOfWeek()));
         holder.textViewDate.setText(note.getDate());
+        holder.textViewDateOfCompletion.setText(note.getDayOfCompletion()+ "-" + note.getMonthOfCompletion()+ "-"+ note.getYearOfCompletion());
 
         int colorID;
         int priority = note.getPriority();
@@ -61,9 +60,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
                 break;
         }
         holder.textViewTitle.setBackgroundColor(colorID);
-        //holder.textViewDescription.setBackgroundColor(holder.itemView.getResources().getColor(android.R.color.holo_blue_light));
-
-
     }
 
     @Override
@@ -72,24 +68,17 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     }
 
     class NotesViewHolder extends RecyclerView.ViewHolder {
-
         TextView textViewTitle;
         TextView textViewDescription;
-        //TextView textViewDayOfWeek;
-
-        //***********//
         TextView textViewDate;
-        //***********//
+        TextView textViewDateOfCompletion;
 
         public NotesViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
             textViewDescription = itemView.findViewById(R.id.textViewDescription);
-            //textViewDayOfWeek = itemView.findViewById(R.id.textViewDayOfWeek);
-
-            //***********//
             textViewDate = itemView.findViewById(R.id.textViewDate);
-            //***********//
+            textViewDateOfCompletion = itemView.findViewById(R.id.textViewDateOfCompletion);
 
             itemView.setOnClickListener(view -> {
                 if (onNoteClicklistener != null) {

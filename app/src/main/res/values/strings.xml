@@ -7,6 +7,8 @@
     <string name="minimal_priority">3</string>
     <string name="save_new_note">Сохранить заметку</string>
     <string name="date_of_create">Дата создания:</string>
+    <string name="dateOfCompletion">Срок выполнения</string>
+    <string name="dateOfCompletionTitle">Дата выполнения:</string>
 
 
     <string-array name="days_of_week">

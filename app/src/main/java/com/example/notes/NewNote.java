@@ -14,9 +14,11 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class NewNote extends AppCompatActivity {
@@ -30,6 +32,10 @@ public class NewNote extends AppCompatActivity {
     CalendarView calendarView;
     String dateOf;
     Dialog dialogSetData;
+    TextView textViewDateOfCompletion;
+    private int yearOfCompletion;
+    private int monthOfCompletion;
+    private int dayOfCompletion;
 
 
     @SuppressLint("ResourceType")
@@ -41,14 +47,12 @@ public class NewNote extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         editTextNoteTitle = findViewById(R.id.editTextNoteTitle);
         editTextNoteDiscription = findViewById(R.id.editTextNoteDiscription);
-        //spinnerDaysOfWeek = findViewById(R.id.spinnerDaysOfWeek);
         radioGroupPriority = findViewById(R.id.radioGroupPriority);
         buttonSaveNewNote = findViewById(R.id.buttonSaveNewNote);
-        //calendarView = findViewById(R.id.calendarViewSetData);
+        textViewDateOfCompletion = findViewById(R.id.textViewDataOfCompletion);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
         dialogSetData = new Dialog(this);
-        //dialogSetData.setTitle("Выберите дату");
         dialogSetData.setContentView(R.layout.dialog);
 
         calendarView = dialogSetData.findViewById(R.id.calendarViewSetData);
@@ -61,11 +65,9 @@ public class NewNote extends AppCompatActivity {
             RadioButton radioButton = findViewById(radioButtonID);
             int newNotePriority = Integer.parseInt(radioButton.getText().toString());
 
-           // Toast.makeText(this, dateOf, Toast.LENGTH_SHORT).show();
 
-
-            if (isFeeld(newNoteTitle, newNoteDescription)) {
-                Note note = new Note(newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, simpleDateFormat.format(new Date()));
+            if (isFeeld(newNoteTitle, newNoteDescription, yearOfCompletion,monthOfCompletion,dayOfCompletion)) {
+                Note note = new Note(newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, simpleDateFormat.format(new Date()), yearOfCompletion,monthOfCompletion,dayOfCompletion);
                 viewModel.insertNote(note);
 
                 Intent intentToMain = new Intent(this, MainActivity.class);
@@ -76,22 +78,23 @@ public class NewNote extends AppCompatActivity {
         });
     }
 
-    private boolean isFeeld(String title, String description) {
-        return !title.isEmpty() && !description.isEmpty();
+    private boolean isFeeld(String title, String description, int Y, int M, int D) {
+        return !title.isEmpty() && !description.isEmpty() && Y != 0 && M != 0 && D != 0;
     }
 
     public void chooseData(View view) {
         dialogSetData.show();
         calendarView.setOnDateChangeListener((calendarView, i, i1, i2) -> {
-            int Y = i;
-            int M = i1 + 1;
-            int D = i2;
-            dateOf = D + "-" + M + "-" + Y;
+            yearOfCompletion = i;
+            monthOfCompletion = i1 + 1;
+            dayOfCompletion = i2;
+            dateOf = dayOfCompletion + "-" + monthOfCompletion + "-" + yearOfCompletion;
         });
     }
 
     public void saveDate(View view) {
         Toast.makeText(this, dateOf, Toast.LENGTH_SHORT).show();
+        textViewDateOfCompletion.setText(dateOf);
         dialogSetData.cancel();
     }
 }
