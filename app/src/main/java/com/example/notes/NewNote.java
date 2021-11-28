@@ -17,6 +17,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,17 +29,18 @@ public class NewNote extends AppCompatActivity {
 
     EditText editTextNoteTitle;
     EditText editTextNoteDiscription;
-    //Spinner spinnerDaysOfWeek;
     RadioGroup radioGroupPriority;
     Button buttonSaveNewNote;
     private MainViewModel viewModel;
     CalendarView calendarView;
     String dateOf;
     Dialog dialogSetData;
-    TextView textViewDateOfCompletion;
+
     private int yearOfCompletion;
     private int monthOfCompletion;
     private int dayOfCompletion;
+    TextInputEditText textInputEditText;
+    TextInputLayout textInputLayout;
 
 
     @SuppressLint("ResourceType")
@@ -50,7 +54,8 @@ public class NewNote extends AppCompatActivity {
         editTextNoteDiscription = findViewById(R.id.editTextNoteDiscription);
         radioGroupPriority = findViewById(R.id.radioGroupPriority);
         buttonSaveNewNote = findViewById(R.id.buttonSaveNewNote);
-        textViewDateOfCompletion = findViewById(R.id.textViewDataOfCompletion);
+        textInputLayout = findViewById(R.id.textInputLayout3);
+        textInputEditText = findViewById(R.id.textInputEditText);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
         dialogSetData = new Dialog(this);
@@ -76,6 +81,7 @@ public class NewNote extends AppCompatActivity {
                 Toast.makeText(this, "Необходимо заполнить все поля!", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     private boolean isFeeld(String title, String description, int Y, int M, int D) {
@@ -96,7 +102,7 @@ public class NewNote extends AppCompatActivity {
         Date currentDate = new Date();
         Calendar dateOfCompletion = new GregorianCalendar(yearOfCompletion, monthOfCompletion - 1, dayOfCompletion + 1);
         if (currentDate.before(dateOfCompletion.getTime())) {
-            textViewDateOfCompletion.setText(dateOf);
+            textInputEditText.setText(dateOf);
             dialogSetData.cancel();
         } else {
             Toast.makeText(this, "Выберите дату не позже текущей!", Toast.LENGTH_SHORT).show();
