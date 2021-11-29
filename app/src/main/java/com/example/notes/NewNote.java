@@ -8,6 +8,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -40,10 +41,10 @@ public class NewNote extends AppCompatActivity {
     private int monthOfCompletion;
     private int dayOfCompletion;
     TextInputEditText textInputEditText;
-    TextInputLayout textInputLayout;
 
 
-    @SuppressLint("ResourceType")
+
+    @SuppressLint({"ResourceType", "ClickableViewAccessibility"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +55,6 @@ public class NewNote extends AppCompatActivity {
         editTextNoteDiscription = findViewById(R.id.editTextNoteDiscription);
         radioGroupPriority = findViewById(R.id.radioGroupPriority);
         buttonSaveNewNote = findViewById(R.id.buttonSaveNewNote);
-        textInputLayout = findViewById(R.id.textInputLayout3);
         textInputEditText = findViewById(R.id.textInputEditText);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -82,20 +82,20 @@ public class NewNote extends AppCompatActivity {
             }
         });
 
+        textInputEditText.setOnTouchListener((view, motionEvent) -> {
+            dialogSetData.show();
+            calendarView.setOnDateChangeListener((calendarView, i, i1, i2) -> {
+                yearOfCompletion = i;
+                monthOfCompletion = i1 + 1;
+                dayOfCompletion = i2;
+                dateOf = dayOfCompletion + "-" + monthOfCompletion + "-" + yearOfCompletion;
+            });
+            return true;
+        });
     }
 
     private boolean isFeeld(String title, String description, int Y, int M, int D) {
         return !title.isEmpty() && !description.isEmpty() && Y != 0 && M != 0 && D != 0;
-    }
-
-    public void chooseData(View view) {
-        dialogSetData.show();
-        calendarView.setOnDateChangeListener((calendarView, i, i1, i2) -> {
-            yearOfCompletion = i;
-            monthOfCompletion = i1 + 1;
-            dayOfCompletion = i2;
-            dateOf = dayOfCompletion + "-" + monthOfCompletion + "-" + yearOfCompletion;
-        });
     }
 
     public void saveDate(View view) {
