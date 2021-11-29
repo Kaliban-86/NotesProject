@@ -1,6 +1,5 @@
 package com.example.notes;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -8,18 +7,15 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -28,8 +24,6 @@ import java.util.GregorianCalendar;
 
 public class NewNote extends AppCompatActivity {
 
-    EditText editTextNoteTitle;
-    EditText editTextNoteDiscription;
     RadioGroup radioGroupPriority;
     Button buttonSaveNewNote;
     private MainViewModel viewModel;
@@ -40,7 +34,9 @@ public class NewNote extends AppCompatActivity {
     private int yearOfCompletion;
     private int monthOfCompletion;
     private int dayOfCompletion;
-    TextInputEditText textInputEditText;
+    TextInputEditText textInputEditTextSetDate;
+    TextInputEditText textInputEditTextTitleOfNote;
+    TextInputEditText textInputEditTextDescriptionOfNote;
 
 
 
@@ -51,11 +47,12 @@ public class NewNote extends AppCompatActivity {
         setContentView(R.layout.activity_new_note);
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        editTextNoteTitle = findViewById(R.id.editTextNoteTitle);
-        editTextNoteDiscription = findViewById(R.id.editTextNoteDiscription);
+
         radioGroupPriority = findViewById(R.id.radioGroupPriority);
         buttonSaveNewNote = findViewById(R.id.buttonSaveNewNote);
-        textInputEditText = findViewById(R.id.textInputEditText);
+        textInputEditTextSetDate = findViewById(R.id.textInputEditText);
+        textInputEditTextTitleOfNote = findViewById(R.id.textInputEditTextTitleOfNote);
+        textInputEditTextDescriptionOfNote = findViewById(R.id.textInputEditTextDescriptionOfNote);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
         dialogSetData = new Dialog(this);
@@ -64,8 +61,8 @@ public class NewNote extends AppCompatActivity {
         calendarView = dialogSetData.findViewById(R.id.calendarViewSetData);
 
         buttonSaveNewNote.setOnClickListener(view -> {
-            String newNoteTitle = editTextNoteTitle.getText().toString().trim();
-            String newNoteDescription = editTextNoteDiscription.getText().toString();
+            String newNoteTitle = textInputEditTextTitleOfNote.getText().toString().trim();
+            String newNoteDescription = textInputEditTextDescriptionOfNote.getText().toString();
             int newNoteDayOfWeek = 0;
             int radioButtonID = radioGroupPriority.getCheckedRadioButtonId();
             RadioButton radioButton = findViewById(radioButtonID);
@@ -82,7 +79,7 @@ public class NewNote extends AppCompatActivity {
             }
         });
 
-        textInputEditText.setOnTouchListener((view, motionEvent) -> {
+        textInputEditTextSetDate.setOnTouchListener((view, motionEvent) -> {
             dialogSetData.show();
             calendarView.setOnDateChangeListener((calendarView, i, i1, i2) -> {
                 yearOfCompletion = i;
@@ -102,7 +99,7 @@ public class NewNote extends AppCompatActivity {
         Date currentDate = new Date();
         Calendar dateOfCompletion = new GregorianCalendar(yearOfCompletion, monthOfCompletion - 1, dayOfCompletion + 1);
         if (currentDate.before(dateOfCompletion.getTime())) {
-            textInputEditText.setText(dateOf);
+            textInputEditTextSetDate.setText(dateOf);
             dialogSetData.cancel();
         } else {
             Toast.makeText(this, "Выберите дату не позже текущей!", Toast.LENGTH_SHORT).show();

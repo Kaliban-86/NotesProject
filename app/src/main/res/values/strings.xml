@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Notes</string>
     <string name="note_title">Название заметки</string>
-    <string name="note_description">Описание заметки</string>
+    <string name="note_description">Содержание заметки</string>
     <string name="highest_priority">1</string>
     <string name="middle_priority">2</string>
     <string name="minimal_priority">3</string>
