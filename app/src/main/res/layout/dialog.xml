@@ -7,21 +7,27 @@
 
     <CalendarView
         android:id="@+id/calendarViewSetData"
-        android:layout_width="329dp"
-        android:layout_height="294dp"
+        android:layout_width="330dp"
+        android:layout_height="304dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
         android:onClick="saveDate"
         android:text="OK"
-        android:layout_marginEnd="30dp"
+        android:textColor="#24BAAC"
+        android:textStyle="bold"
+        app:cornerRadius="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarViewSetData" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendarViewSetData"
+        app:strokeColor="#24BAAC"
+        app:strokeWidth="3dp" />
 
     <TextView
         android:id="@+id/textView"

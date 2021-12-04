@@ -26,6 +26,7 @@ public class NewNote extends AppCompatActivity {
 
     RadioGroup radioGroupPriority;
     Button buttonSaveNewNote;
+    Button buttonCancel;
     private MainViewModel viewModel;
     CalendarView calendarView;
     String dateOf;
@@ -50,6 +51,7 @@ public class NewNote extends AppCompatActivity {
 
         radioGroupPriority = findViewById(R.id.radioGroupPriority);
         buttonSaveNewNote = findViewById(R.id.buttonSaveNewNote);
+        buttonCancel = findViewById(R.id.buttonCancel);
         textInputEditTextSetDate = findViewById(R.id.textInputEditText);
         textInputEditTextTitleOfNote = findViewById(R.id.textInputEditTextTitleOfNote);
         textInputEditTextDescriptionOfNote = findViewById(R.id.textInputEditTextDescriptionOfNote);
@@ -59,6 +61,12 @@ public class NewNote extends AppCompatActivity {
         dialogSetData.setContentView(R.layout.dialog);
 
         calendarView = dialogSetData.findViewById(R.id.calendarViewSetData);
+
+
+        buttonCancel.setOnClickListener(view -> {
+            Intent intentToMain = new Intent(this, MainActivity.class);
+            startActivity(intentToMain);
+        });
 
         buttonSaveNewNote.setOnClickListener(view -> {
             String newNoteTitle = textInputEditTextTitleOfNote.getText().toString().trim();

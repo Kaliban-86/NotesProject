@@ -19,10 +19,17 @@
         android:id="@+id/floatingActionButtonAddNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="14dp"
+        android:background="#3F7FB1"
+        android:backgroundTint="#FFFFFF"
         android:clickable="true"
-        app:backgroundTint="@color/teal_700"
+        android:tint="#FFEB3B"
+        app:backgroundTint="#851010"
+        app:borderWidth="3dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="#FFFFFF"
         app:srcCompat="@android:drawable/ic_input_add" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

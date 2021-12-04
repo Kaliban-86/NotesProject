@@ -22,10 +22,10 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Приоритет заметки"
-            android:textSize="18dp"
             android:layout_marginEnd="10dp"
+            android:text="Приоритет заметки"
             android:textColor="@color/black"
+            android:textSize="18dp"
             tools:layout_editor_absoluteX="94dp"
             tools:layout_editor_absoluteY="371dp" />
 
@@ -70,18 +70,6 @@
 
 
     </RadioGroup>
-
-    <Button
-        android:id="@+id/buttonSaveNewNote"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:backgroundTint="#B22222"
-        android:text="@string/save_new_note"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupPriority" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout3"
@@ -138,6 +126,7 @@
         style="@style/LoginTextInputLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintHeight_max="115dp"
         android:layout_margin="4dp"
         android:textColorHint="#C0C0C0"
         android:theme="@style/LoginTextInputLayoutStyle"
@@ -157,6 +146,50 @@
             android:textColorHint="#808080"
             android:textSize="18sp" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupPriority">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSaveNewNote"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="2"
+            android:backgroundTint="#FFFFFF"
+            android:cursorVisible="false"
+            android:elegantTextHeight="false"
+            android:focusableInTouchMode="false"
+            android:text="@string/save_new_note"
+            android:textColor="#008000"
+            android:textStyle="bold"
+            app:cornerRadius="9dp"
+            app:elevation="12dp"
+            app:strokeColor="#008000"
+            app:strokeWidth="2dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:backgroundTint="#DF1010"
+            android:text="Отмена"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            app:cornerRadius="9dp"
+            app:strokeColor="#DF1010"
+            app:strokeWidth="2dp" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

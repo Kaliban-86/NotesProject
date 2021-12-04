@@ -50,13 +50,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         int priority = note.getPriority();
         switch (priority) {
             case 1:
-                colorID = holder.itemView.getResources().getColor(android.R.color.holo_red_light);
+                colorID = holder.itemView.getResources().getColor(R.color.red);
                 break;
             case 2:
-                colorID = holder.itemView.getResources().getColor(android.R.color.holo_orange_light);
+                colorID = holder.itemView.getResources().getColor(R.color.blue);
                 break;
             default:
-                colorID = holder.itemView.getResources().getColor(android.R.color.holo_green_light);
+                colorID = holder.itemView.getResources().getColor(R.color.green);
                 break;
         }
         holder.textViewTitle.setBackgroundColor(colorID);
