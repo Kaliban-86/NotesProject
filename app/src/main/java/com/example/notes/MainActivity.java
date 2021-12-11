@@ -56,7 +56,9 @@ public class MainActivity extends AppCompatActivity {
         notesAdapter.setOnNoteClicklistener(new NotesAdapter.onNoteClicklistener() {
             @Override
             public void onNoteClick(int position) {
-                Toast.makeText(MainActivity.this, "Нажат номер: " + position, Toast.LENGTH_SHORT).show();
+               Note noteV = notesAdapter.getNotes().get(position);;
+
+                Toast.makeText(MainActivity.this, noteV.getTitle(), Toast.LENGTH_SHORT).show();
             }
 
             @Override

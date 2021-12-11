@@ -1,6 +1,11 @@
 package com.example.notes;
 
+import static com.example.notes.R.drawable.fon;
+import static com.example.notes.R.drawable.fontwo;
+
 import android.annotation.SuppressLint;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +65,11 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
                 break;
         }
         holder.textViewTitle.setBackgroundColor(colorID);
+
+//        Drawable drawable;
+//        drawable = holder.itemView.getResources().getDrawable(fontwo);
+//        holder.textViewDescription.setBackground(drawable);
+
     }
 
     @Override
