@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Database;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MainViewModel extends AndroidViewModel {
 
@@ -23,6 +24,10 @@ public class MainViewModel extends AndroidViewModel {
 
     public LiveData<List<Note>> getNotes() {
         return notes;
+    }
+
+    public Note getNote(int id){
+        return Objects.requireNonNull(notes.getValue()).get(id);
     }
 
     public void insertNote (Note note){

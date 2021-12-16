@@ -1,6 +1,7 @@
 package com.example.notes;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -18,9 +19,11 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class NewNote extends AppCompatActivity {
 
@@ -31,14 +34,13 @@ public class NewNote extends AppCompatActivity {
     CalendarView calendarView;
     String dateOf;
     Dialog dialogSetData;
-
     private int yearOfCompletion;
     private int monthOfCompletion;
     private int dayOfCompletion;
     TextInputEditText textInputEditTextSetDate;
     TextInputEditText textInputEditTextTitleOfNote;
     TextInputEditText textInputEditTextDescriptionOfNote;
-
+    private final List<Note> notes = new ArrayList<>();
 
 
     @SuppressLint({"ResourceType", "ClickableViewAccessibility"})
@@ -59,9 +61,7 @@ public class NewNote extends AppCompatActivity {
 
         dialogSetData = new Dialog(this);
         dialogSetData.setContentView(R.layout.dialog);
-
         calendarView = dialogSetData.findViewById(R.id.calendarViewSetData);
-
 
         buttonCancel.setOnClickListener(view -> {
             Intent intentToMain = new Intent(this, MainActivity.class);
@@ -97,6 +97,21 @@ public class NewNote extends AppCompatActivity {
             });
             return true;
         });
+
+        Bundle noteFeelds = getIntent().getExtras();
+        if (noteFeelds != null) {
+            Note note = new Note(noteFeelds.getString("noteSTitle")
+                    , noteFeelds.getString("noteSDescription"), noteFeelds.getInt("noteSDayOfWeek")
+                    , noteFeelds.getInt("noteSPriority"), noteFeelds.getString("noteSDate")
+                    , noteFeelds.getInt("noteSYearOfCompletion"), noteFeelds.getInt("noteSMonthOfCompletion")
+                    , noteFeelds.getInt("noteSDayOfCompletion"));
+            note.setTitle(textInputEditTextTitleOfNote.getText().toString().trim());
+            note.setDescription(textInputEditTextDescriptionOfNote.getText().toString());
+
+
+            //Note note = notes.get(noteFeelds.getInt("noteNumber"));
+            //Toast.makeText(this, notes.size() + " ",Toast.LENGTH_SHORT).show();
+        }
     }
 
     private boolean isFeeld(String title, String description, int Y, int M, int D) {
