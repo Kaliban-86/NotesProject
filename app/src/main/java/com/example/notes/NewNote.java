@@ -1,7 +1,6 @@
 package com.example.notes;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -19,11 +17,9 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 public class NewNote extends AppCompatActivity {
 
@@ -40,7 +36,6 @@ public class NewNote extends AppCompatActivity {
     TextInputEditText textInputEditTextSetDate;
     TextInputEditText textInputEditTextTitleOfNote;
     TextInputEditText textInputEditTextDescriptionOfNote;
-    private final List<Note> notes = new ArrayList<>();
 
 
     @SuppressLint({"ResourceType", "ClickableViewAccessibility"})
@@ -48,9 +43,7 @@ public class NewNote extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_note);
-
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-
         radioGroupPriority = findViewById(R.id.radioGroupPriority);
         buttonSaveNewNote = findViewById(R.id.buttonSaveNewNote);
         buttonCancel = findViewById(R.id.buttonCancel);
@@ -65,7 +58,13 @@ public class NewNote extends AppCompatActivity {
 
         buttonCancel.setOnClickListener(view -> {
             Intent intentToMain = new Intent(this, MainActivity.class);
-            startActivity(intentToMain);
+            Bundle noteFeelds = getIntent().getExtras();
+            if (noteFeelds != null) {
+                viewModel.insertNote(getOldNoteFields(noteFeelds));
+                startActivity(intentToMain);
+            } else {
+                startActivity(intentToMain);
+            }
         });
 
         buttonSaveNewNote.setOnClickListener(view -> {
@@ -98,24 +97,27 @@ public class NewNote extends AppCompatActivity {
             return true;
         });
 
-        Bundle noteFeelds = getIntent().getExtras();
-        if (noteFeelds != null) {
-            Note note = new Note(noteFeelds.getString("noteSTitle")
-                    , noteFeelds.getString("noteSDescription"), noteFeelds.getInt("noteSDayOfWeek")
-                    , noteFeelds.getInt("noteSPriority"), noteFeelds.getString("noteSDate")
-                    , noteFeelds.getInt("noteSYearOfCompletion"), noteFeelds.getInt("noteSMonthOfCompletion")
-                    , noteFeelds.getInt("noteSDayOfCompletion"));
-            note.setTitle(textInputEditTextTitleOfNote.getText().toString().trim());
-            note.setDescription(textInputEditTextDescriptionOfNote.getText().toString());
-
-
-            //Note note = notes.get(noteFeelds.getInt("noteNumber"));
-            //Toast.makeText(this, notes.size() + " ",Toast.LENGTH_SHORT).show();
+        Bundle noteFields = getIntent().getExtras();
+        if (noteFields != null) {
+            setNoteFieldsToOldNote(getOldNoteFields(noteFields));
         }
     }
 
     private boolean isFeeld(String title, String description, int Y, int M, int D) {
         return !title.isEmpty() && !description.isEmpty() && Y != 0 && M != 0 && D != 0;
+    }
+
+    private Note getOldNoteFields(Bundle bundle) {
+        return new Note(bundle.getString("noteSTitle")
+                , bundle.getString("noteSDescription"), bundle.getInt("noteSDayOfWeek")
+                , bundle.getInt("noteSPriority"), bundle.getString("noteSDate")
+                , bundle.getInt("noteSYearOfCompletion"), bundle.getInt("noteSMonthOfCompletion")
+                , bundle.getInt("noteSDayOfCompletion"));
+    }
+
+    private void setNoteFieldsToOldNote(Note note) {
+        textInputEditTextTitleOfNote.setText(note.getTitle());
+        textInputEditTextDescriptionOfNote.setText(note.getDescription());
     }
 
     public void saveDate(View view) {

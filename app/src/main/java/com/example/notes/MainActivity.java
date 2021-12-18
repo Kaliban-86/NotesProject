@@ -58,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
             public void onNoteClick(int position) {
                 Note noteS = viewModel.getNote(position);
 
-                Toast.makeText(MainActivity.this, noteS.getTitle(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, noteS.getTitle(), Toast.LENGTH_SHORT).show();
                 Intent intentToChangeNote = new Intent(MainActivity.this, NewNote.class);
-                //intentToChangeNote.putExtra("noteSId", noteS.getId());
+                intentToChangeNote.putExtra("noteSPosition", position);
                 intentToChangeNote.putExtra("noteSTitle", noteS.getTitle());
                 intentToChangeNote.putExtra("noteSDescription", noteS.getDescription());
                 intentToChangeNote.putExtra("noteSDayOfWeek", noteS.getDayOfWeek());
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 intentToChangeNote.putExtra("noteSYearOfCompletion", noteS.getYearOfCompletion());
                 intentToChangeNote.putExtra("noteSMonthOfCompletion", noteS.getMonthOfCompletion());
                 intentToChangeNote.putExtra("noteSDayOfCompletion", noteS.getDayOfCompletion());
+
                 viewModel.deleteNote(noteS);
                 startActivity(intentToChangeNote);
             }
