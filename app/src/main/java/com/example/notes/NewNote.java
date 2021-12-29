@@ -56,16 +56,11 @@ public class NewNote extends AppCompatActivity {
         dialogSetData.setContentView(R.layout.dialog);
         calendarView = dialogSetData.findViewById(R.id.calendarViewSetData);
 
-        buttonCancel.setOnClickListener(view -> {
-            Intent intentToMain = new Intent(this, MainActivity.class);
-            Bundle noteFeelds = getIntent().getExtras();
-            if (noteFeelds != null) {
-                viewModel.insertNote(getOldNoteFields(noteFeelds));
-                startActivity(intentToMain);
-            } else {
-                startActivity(intentToMain);
-            }
-        });
+        Bundle noteFields = getIntent().getExtras();
+
+        if (noteFields != null) {
+            setNoteFieldsToOldNote(getOldNoteFields(noteFields));
+        }
 
         buttonSaveNewNote.setOnClickListener(view -> {
             String newNoteTitle = textInputEditTextTitleOfNote.getText().toString().trim();
@@ -75,15 +70,30 @@ public class NewNote extends AppCompatActivity {
             RadioButton radioButton = findViewById(radioButtonID);
             int newNotePriority = Integer.parseInt(radioButton.getText().toString());
 
-            if (isFeeld(newNoteTitle, newNoteDescription, yearOfCompletion, monthOfCompletion, dayOfCompletion)) {
+            if (isFeeld(newNoteTitle, newNoteDescription, yearOfCompletion, monthOfCompletion, dayOfCompletion) && (noteFields != null)) {
+
+                Note note = new Note(newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, simpleDateFormat.format(new Date()), yearOfCompletion, monthOfCompletion, dayOfCompletion);
+                note.setId(noteFields.getInt("noteId"));
+                viewModel.updateNote(note);
+                Intent intentToMain = new Intent(this, MainActivity.class);
+                startActivity(intentToMain);
+
+            } else if (isFeeld(newNoteTitle, newNoteDescription, yearOfCompletion, monthOfCompletion, dayOfCompletion)) {
 
                 Note note = new Note(newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, simpleDateFormat.format(new Date()), yearOfCompletion, monthOfCompletion, dayOfCompletion);
                 viewModel.insertNote(note);
                 Intent intentToMain = new Intent(this, MainActivity.class);
                 startActivity(intentToMain);
+
             } else {
+
                 Toast.makeText(this, "Необходимо заполнить все поля!", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        buttonCancel.setOnClickListener(view -> {
+            Intent intentToMain = new Intent(this, MainActivity.class);
+            startActivity(intentToMain);
         });
 
         textInputEditTextSetDate.setOnTouchListener((view, motionEvent) -> {
@@ -97,10 +107,7 @@ public class NewNote extends AppCompatActivity {
             return true;
         });
 
-        Bundle noteFields = getIntent().getExtras();
-        if (noteFields != null) {
-            setNoteFieldsToOldNote(getOldNoteFields(noteFields));
-        }
+
     }
 
     private boolean isFeeld(String title, String description, int Y, int M, int D) {
@@ -113,6 +120,7 @@ public class NewNote extends AppCompatActivity {
                 , bundle.getInt("noteSPriority"), bundle.getString("noteSDate")
                 , bundle.getInt("noteSYearOfCompletion"), bundle.getInt("noteSMonthOfCompletion")
                 , bundle.getInt("noteSDayOfCompletion"));
+        //return viewModel.getNote(bundle.getInt("noteId"));
     }
 
     private void setNoteFieldsToOldNote(Note note) {

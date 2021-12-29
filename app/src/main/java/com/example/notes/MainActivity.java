@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //Toast.makeText(MainActivity.this, noteS.getTitle(), Toast.LENGTH_SHORT).show();
                 Intent intentToChangeNote = new Intent(MainActivity.this, NewNote.class);
+                intentToChangeNote.putExtra("noteId",noteS.getId());
                 intentToChangeNote.putExtra("noteSPosition", position);
                 intentToChangeNote.putExtra("noteSTitle", noteS.getTitle());
                 intentToChangeNote.putExtra("noteSDescription", noteS.getDescription());
@@ -69,14 +70,12 @@ public class MainActivity extends AppCompatActivity {
                 intentToChangeNote.putExtra("noteSYearOfCompletion", noteS.getYearOfCompletion());
                 intentToChangeNote.putExtra("noteSMonthOfCompletion", noteS.getMonthOfCompletion());
                 intentToChangeNote.putExtra("noteSDayOfCompletion", noteS.getDayOfCompletion());
-
-                viewModel.deleteNote(noteS);
                 startActivity(intentToChangeNote);
             }
 
             @Override
             public void onLongClick(int position) {
-                //remove(position);
+
             }
 
         });
