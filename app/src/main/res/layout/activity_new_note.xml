@@ -4,92 +4,192 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".NewNote">
 
-    <EditText
-        android:id="@+id/editTextNoteTitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:elegantTextHeight="true"
-        android:hint="@string/note_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextNoteDiscription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:gravity="start|top"
-        android:hint="@string/note_description"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNoteTitle" />
-
-    <Spinner
-        android:id="@+id/spinnerDaysOfWeek"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:entries="@array/days_of_week"
-        android:padding="7dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNoteDiscription" />
 
     <RadioGroup
-        android:id="@+id/radioGroupePriority"
-        android:layout_width="0dp"
+        android:id="@+id/radioGroupPriority"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:layout_margin="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerDaysOfWeek">
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
 
-        <RadioButton
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="Приоритет заметки"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            tools:layout_editor_absoluteX="94dp"
+            tools:layout_editor_absoluteY="371dp" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/radioButton1"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="3dp"
             android:layout_weight="1"
-            android:background="@android:color/holo_red_light"
+            android:buttonTint="#DF1010"
             android:checked="true"
-            android:layout_margin="3dp"
             android:paddingStart="7dp"
-            android:text="@string/highest_priority" />
+            android:text="@string/highest_priority"
+            android:textAlignment="textStart"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:buttonTint="#DF1010" />
 
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/radioButton2"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/holo_orange_light"
             android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:buttonTint="#00008B"
             android:paddingStart="7dp"
-            android:text="@string/middle_priority" />
+            android:text="@string/middle_priority"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
 
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/radioButton3"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/holo_green_light"
             android:layout_margin="3dp"
+            android:layout_weight="1"
+            android:buttonTint="#008000"
             android:paddingStart="7dp"
-            android:text="@string/minimal_priority" />
+            android:text="@string/minimal_priority"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+
     </RadioGroup>
 
-    <Button
-        android:id="@+id/buttonSaveNewNote"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout3"
+        style="@style/LoginTextInputLayoutStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:backgroundTint="@color/teal_700"
-        android:text="@string/save_new_note"
+        android:layout_margin="4dp"
+        android:textColorHint="#C0C0C0"
+        android:theme="@style/LoginTextInputLayoutStyle"
+        app:boxBackgroundColor="#8B0000"
+        app:hintTextColor="#8B0000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupePriority" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:hint="@string/date_of_completion"
+            android:minHeight="48dp"
+            android:textColorHint="#808080"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
+        style="@style/LoginTextInputLayoutStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:textColorHint="#C0C0C0"
+        android:theme="@style/LoginTextInputLayoutStyle"
+        app:boxStrokeColor="#8B0000"
+        app:hintTextColor="#8B0000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditTextTitleOfNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:hint="@string/note_title"
+            android:paddingBottom="10dp"
+            android:textColorHint="#E9967A"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout2"
+        style="@style/LoginTextInputLayoutStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintHeight_max="115dp"
+        android:layout_margin="4dp"
+        android:textColorHint="#C0C0C0"
+        android:theme="@style/LoginTextInputLayoutStyle"
+        app:boxStrokeColor="#8B0000"
+        app:hintTextColor="#8B0000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditTextDescriptionOfNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:hint="@string/note_description"
+            android:minHeight="48dp"
+            android:textColorHint="#808080"
+            android:textSize="18sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupPriority">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSaveNewNote"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="2"
+            android:backgroundTint="#FFFFFF"
+            android:cursorVisible="false"
+            android:elegantTextHeight="false"
+            android:focusableInTouchMode="false"
+            android:text="@string/save_new_note"
+            android:textColor="#008000"
+            android:textStyle="bold"
+            app:cornerRadius="9dp"
+            app:elevation="12dp"
+            app:strokeColor="#008000"
+            app:strokeWidth="2dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonCancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="4dp"
+            android:layout_weight="1"
+            android:backgroundTint="#DF1010"
+            android:text="Отмена"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            app:cornerRadius="9dp"
+            app:strokeColor="#DF1010"
+            app:strokeWidth="2dp" />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

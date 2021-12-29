@@ -14,7 +14,9 @@ public class Note {
     private int dayOfWeek;
     private int priority;
     private String date;
-
+    private int yearOfCompletion;
+    private int monthOfCompletion;
+    private int dayOfCompletion;
 
     public Note(int id, String title, String description, int dayOfWeek, int priority) {
         this.id = id;
@@ -24,14 +26,6 @@ public class Note {
         this.priority = priority;
     }
 
-//    @Ignore
-//    public Note(String title, String description, int dayOfWeek, int priority) {
-//        this.title = title;
-//        this.description = description;
-//        this.dayOfWeek = dayOfWeek;
-//        this.priority = priority;
-//    }
-
     @Ignore
     public Note(String title, String description, int dayOfWeek, int priority, String date) {
         this.title = title;
@@ -40,6 +34,46 @@ public class Note {
         this.priority = priority;
         this.date = date;
     }
+
+    @Ignore
+    public Note(String title, String description, int dayOfWeek, int priority, String date, int yearOfCompletion, int monthOfCompletion, int dayOfCompletion) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.dayOfWeek = dayOfWeek;
+        this.priority = priority;
+        this.date = date;
+        this.yearOfCompletion = yearOfCompletion;
+        this.monthOfCompletion = monthOfCompletion;
+        this.dayOfCompletion = dayOfCompletion;
+    }
+
+    public int getYearOfCompletion() {
+        return yearOfCompletion;
+    }
+
+    public void setYearOfCompletion(int yearOfCompletion) {
+        this.yearOfCompletion = yearOfCompletion;
+    }
+
+    public int getMonthOfCompletion() {
+        return monthOfCompletion;
+    }
+
+    public void setMonthOfCompletion(int monthOfCompletion) {
+        this.monthOfCompletion = monthOfCompletion;
+    }
+
+    public int getDayOfCompletion() {
+        return dayOfCompletion;
+    }
+
+    public void setDayOfCompletion(int dayOfCompletion) {
+        this.dayOfCompletion = dayOfCompletion;
+    }
+
+
+
 
     public void setId(int id) {
         this.id = id;
@@ -65,6 +99,8 @@ public class Note {
         this.date = date;
     }
 
+
+
     public int getId() {
         return id;
     }
@@ -89,22 +125,4 @@ public class Note {
         return date;
     }
 
-    public static String getDayAsString(int position) {
-        switch (position) {
-            case 1:
-                return "Понедельник";
-            case 2:
-                return "Вторник";
-            case 3:
-                return "Среда";
-            case 4:
-                return "Четверг";
-            case 5:
-                return "Пятница";
-            case 6:
-                return "Суббота";
-            default:
-                return "Воскресенье";
-        }
-    }
 }

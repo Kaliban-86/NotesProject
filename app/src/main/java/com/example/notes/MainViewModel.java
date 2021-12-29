@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Database;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MainViewModel extends AndroidViewModel {
 
@@ -25,38 +26,58 @@ public class MainViewModel extends AndroidViewModel {
         return notes;
     }
 
-    public void insertNote (Note note){
-        new  InsertTask().execute(note);
+    public Note getNote(int id) {
+        return Objects.requireNonNull(notes.getValue()).get(id);
     }
 
-    public void deleteNote (Note note){
-       new DeleteTask().execute(note);
+
+    public void insertNote(Note note) {
+        new InsertTask().execute(note);
     }
 
-    public void deleteAllNotes(){
+    public void updateNote(Note note) {
+        new UpdateTask().execute(note);
+    }
+
+    public void deleteNote(Note note) {
+        new DeleteTask().execute(note);
+    }
+
+    public void deleteAllNotes() {
         new DeleteAllTask().execute();
     }
 
-    public  static  class InsertTask extends AsyncTask<Note,Void,Void> {
+    public static class InsertTask extends AsyncTask<Note, Void, Void> {
         @Override
         protected Void doInBackground(Note... notes) {
-            if(notes != null && notes.length > 0){
+            if (notes != null && notes.length > 0) {
                 database.notesDao().insertNote(notes[0]);
             }
             return null;
         }
     }
 
-    public  static  class DeleteTask extends AsyncTask<Note,Void,Void> {
+    public static class UpdateTask extends AsyncTask<Note, Void, Void> {
         @Override
         protected Void doInBackground(Note... notes) {
-            if(notes != null && notes.length > 0){
+            if (notes != null && notes.length > 0) {
+                database.notesDao().updateNote(notes[0]);
+            }
+            return null;
+        }
+    }
+
+    public static class DeleteTask extends AsyncTask<Note, Void, Void> {
+        @Override
+        protected Void doInBackground(Note... notes) {
+            if (notes != null && notes.length > 0) {
                 database.notesDao().deleteNote(notes[0]);
             }
             return null;
         }
     }
-    public  static  class DeleteAllTask extends AsyncTask<Void,Void,Void> {
+
+    public static class DeleteAllTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... notes) {
             database.notesDao().deleteAllNotes();

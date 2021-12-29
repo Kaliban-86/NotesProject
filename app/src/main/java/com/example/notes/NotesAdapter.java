@@ -1,6 +1,11 @@
 package com.example.notes;
 
+import static com.example.notes.R.drawable.fon;
+import static com.example.notes.R.drawable.fontwo;
+
 import android.annotation.SuppressLint;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +20,6 @@ import java.util.List;
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder> {
 
     private onNoteClicklistener onNoteClicklistener;
-
-
     List<Note> notes;
 
     public NotesAdapter(List<Note> notes) {
@@ -39,30 +42,33 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         return new NotesViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull NotesViewHolder holder, int position) {
         Note note = notes.get(position);
         holder.textViewTitle.setText(note.getTitle());
         holder.textViewDescription.setText(note.getDescription());
-        holder.textViewDayOfWeek.setText(Note.getDayAsString(note.getDayOfWeek()));
         holder.textViewDate.setText(note.getDate());
+        holder.textViewDateOfCompletion.setText(note.getDayOfCompletion()+ "-" + note.getMonthOfCompletion()+ "-"+ note.getYearOfCompletion());
 
         int colorID;
         int priority = note.getPriority();
         switch (priority) {
             case 1:
-                colorID = holder.itemView.getResources().getColor(android.R.color.holo_red_light);
+                colorID = holder.itemView.getResources().getColor(R.color.red);
                 break;
             case 2:
-                colorID = holder.itemView.getResources().getColor(android.R.color.holo_orange_light);
+                colorID = holder.itemView.getResources().getColor(R.color.blue);
                 break;
             default:
-                colorID = holder.itemView.getResources().getColor(android.R.color.holo_green_light);
+                colorID = holder.itemView.getResources().getColor(R.color.green);
                 break;
         }
         holder.textViewTitle.setBackgroundColor(colorID);
-        //holder.textViewDescription.setBackgroundColor(holder.itemView.getResources().getColor(android.R.color.holo_blue_light));
 
+//        Drawable drawable;
+//        drawable = holder.itemView.getResources().getDrawable(fontwo);
+//        holder.textViewDescription.setBackground(drawable);
 
     }
 
@@ -72,24 +78,17 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     }
 
     class NotesViewHolder extends RecyclerView.ViewHolder {
-
         TextView textViewTitle;
         TextView textViewDescription;
-        TextView textViewDayOfWeek;
-
-        //***********//
         TextView textViewDate;
-        //***********//
+        TextView textViewDateOfCompletion;
 
         public NotesViewHolder(@NonNull View itemView) {
             super(itemView);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
             textViewDescription = itemView.findViewById(R.id.textViewDescription);
-            textViewDayOfWeek = itemView.findViewById(R.id.textViewDayOfWeek);
-
-            //***********//
             textViewDate = itemView.findViewById(R.id.textViewDate);
-            //***********//
+            textViewDateOfCompletion = itemView.findViewById(R.id.textViewDateOfCompletion);
 
             itemView.setOnClickListener(view -> {
                 if (onNoteClicklistener != null) {

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private final List<Note> notes = new ArrayList<>();
     private NotesAdapter notesAdapter;
     private MainViewModel viewModel;
-
 
 
     @Override
@@ -56,12 +56,26 @@ public class MainActivity extends AppCompatActivity {
         notesAdapter.setOnNoteClicklistener(new NotesAdapter.onNoteClicklistener() {
             @Override
             public void onNoteClick(int position) {
-                Toast.makeText(MainActivity.this, "Нажат номер: " + position, Toast.LENGTH_SHORT).show();
+                Note noteS = viewModel.getNote(position);
+
+                //Toast.makeText(MainActivity.this, noteS.getTitle(), Toast.LENGTH_SHORT).show();
+                Intent intentToChangeNote = new Intent(MainActivity.this, NewNote.class);
+                intentToChangeNote.putExtra("noteId",noteS.getId());
+                intentToChangeNote.putExtra("noteSPosition", position);
+                intentToChangeNote.putExtra("noteSTitle", noteS.getTitle());
+                intentToChangeNote.putExtra("noteSDescription", noteS.getDescription());
+                intentToChangeNote.putExtra("noteSDayOfWeek", noteS.getDayOfWeek());
+                intentToChangeNote.putExtra("noteSPriority", noteS.getPriority());
+                intentToChangeNote.putExtra("noteSDate", noteS.getDate());
+                intentToChangeNote.putExtra("noteSYearOfCompletion", noteS.getYearOfCompletion());
+                intentToChangeNote.putExtra("noteSMonthOfCompletion", noteS.getMonthOfCompletion());
+                intentToChangeNote.putExtra("noteSDayOfCompletion", noteS.getDayOfCompletion());
+                startActivity(intentToChangeNote);
             }
 
             @Override
             public void onLongClick(int position) {
-                //remove(position);
+
             }
 
         });
@@ -91,14 +105,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void getData(){
-        LiveData <List<Note>> notesFromDB = viewModel.getNotes();
-        notesFromDB.observe(this, notesFromLiveData -> {
-            notesAdapter.setNotes(notesFromLiveData);
-        });
+    protected void getData() {
+        LiveData<List<Note>> notesFromDB = viewModel.getNotes();
+        notesFromDB.observe(this, notesFromLiveData -> notesAdapter.setNotes(notesFromLiveData));
     }
 
-    private void deleteAll (){
+    private void deleteAll() {
         viewModel.deleteAllNotes();
     }
 }

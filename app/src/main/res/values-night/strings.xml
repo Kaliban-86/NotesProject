@@ -6,4 +6,8 @@
     <string name="middle_priority">Средний</string>
     <string name="minimal_priority">RadioButton</string>
     <string name="save_new_note">Сохранить</string>
+    <string name="date_of_create">Дата создания:</string>
+    <string name="dateOfCompletion">Срок выполнения</string>
+    <string name="dateOfCompletionTitle">Дата выполнения</string>
+    <string name="date_of_completion">Срок исполнения заметки</string>
 </resources>
