@@ -72,8 +72,7 @@ public class NewNote extends AppCompatActivity {
 
             if (isFeeld(newNoteTitle, newNoteDescription, yearOfCompletion, monthOfCompletion, dayOfCompletion) && (noteFields != null)) {
 
-                Note note = new Note(newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, simpleDateFormat.format(new Date()), yearOfCompletion, monthOfCompletion, dayOfCompletion);
-                note.setId(noteFields.getInt("noteId"));
+                Note note = new Note(noteFields.getInt("noteId"),newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, simpleDateFormat.format(new Date()), yearOfCompletion, monthOfCompletion, dayOfCompletion);
                 viewModel.updateNote(note);
                 Intent intentToMain = new Intent(this, MainActivity.class);
                 startActivity(intentToMain);
@@ -107,7 +106,6 @@ public class NewNote extends AppCompatActivity {
             return true;
         });
 
-
     }
 
     private boolean isFeeld(String title, String description, int Y, int M, int D) {
@@ -115,12 +113,11 @@ public class NewNote extends AppCompatActivity {
     }
 
     private Note getOldNoteFields(Bundle bundle) {
-        return new Note(bundle.getString("noteSTitle")
+        return new Note(bundle.getInt("noteId"),bundle.getString("noteSTitle")
                 , bundle.getString("noteSDescription"), bundle.getInt("noteSDayOfWeek")
                 , bundle.getInt("noteSPriority"), bundle.getString("noteSDate")
                 , bundle.getInt("noteSYearOfCompletion"), bundle.getInt("noteSMonthOfCompletion")
                 , bundle.getInt("noteSDayOfCompletion"));
-        //return viewModel.getNote(bundle.getInt("noteId"));
     }
 
     private void setNoteFieldsToOldNote(Note note) {

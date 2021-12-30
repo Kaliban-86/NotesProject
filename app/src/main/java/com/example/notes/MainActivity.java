@@ -58,8 +58,7 @@ public class MainActivity extends AppCompatActivity {
             public void onNoteClick(int position) {
                 Note noteS = viewModel.getNote(position);
 
-                //Toast.makeText(MainActivity.this, noteS.getTitle(), Toast.LENGTH_SHORT).show();
-                Intent intentToChangeNote = new Intent(MainActivity.this, NewNote.class);
+                Intent intentToChangeNote = new Intent(MainActivity.this, readNote.class);
                 intentToChangeNote.putExtra("noteId",noteS.getId());
                 intentToChangeNote.putExtra("noteSPosition", position);
                 intentToChangeNote.putExtra("noteSTitle", noteS.getTitle());
@@ -71,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 intentToChangeNote.putExtra("noteSMonthOfCompletion", noteS.getMonthOfCompletion());
                 intentToChangeNote.putExtra("noteSDayOfCompletion", noteS.getDayOfCompletion());
                 startActivity(intentToChangeNote);
+
             }
 
             @Override

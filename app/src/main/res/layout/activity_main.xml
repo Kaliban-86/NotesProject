@@ -24,6 +24,7 @@
         android:tint="#FFEB3B"
         app:backgroundTint="#851010"
         app:borderWidth="3dp"
+        android:layout_margin="7dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="#FFFFFF"

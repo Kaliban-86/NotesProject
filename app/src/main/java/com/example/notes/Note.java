@@ -36,8 +36,20 @@ public class Note {
     }
 
     @Ignore
-    public Note(String title, String description, int dayOfWeek, int priority, String date, int yearOfCompletion, int monthOfCompletion, int dayOfCompletion) {
+    public Note(int id, String title, String description, int dayOfWeek, int priority, String date, int yearOfCompletion, int monthOfCompletion, int dayOfCompletion) {
         this.id = id;
+        this.title = title;
+        this.description = description;
+        this.dayOfWeek = dayOfWeek;
+        this.priority = priority;
+        this.date = date;
+        this.yearOfCompletion = yearOfCompletion;
+        this.monthOfCompletion = monthOfCompletion;
+        this.dayOfCompletion = dayOfCompletion;
+    }
+
+    @Ignore
+    public Note(String title, String description, int dayOfWeek, int priority, String date, int yearOfCompletion, int monthOfCompletion, int dayOfCompletion) {
         this.title = title;
         this.description = description;
         this.dayOfWeek = dayOfWeek;
