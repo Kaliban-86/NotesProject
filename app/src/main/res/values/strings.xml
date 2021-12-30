@@ -6,10 +6,11 @@
     <string name="middle_priority">2</string>
     <string name="minimal_priority">3</string>
     <string name="save_new_note">Сохранить заметку</string>
-    <string name="date_of_create">Дата создания:</string>
+    <string name="date_of_create">Создано:</string>
     <string name="dateOfCompletion">Срок выполнения</string>
-    <string name="dateOfCompletionTitle">Дата выполнения:</string>
+    <string name="dateOfCompletionTitle">Выполнить:</string>
     <string name="date_of_completion">Срок исполнения заметки</string>
+    <string name="Cancel">Отмена</string>
 
 
     <string-array name="days_of_week">

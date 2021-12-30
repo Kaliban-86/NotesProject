@@ -15,10 +15,11 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="1dp"
+        android:layout_height="match_parent"
         android:background="@color/white"
-        android:padding="3dp">
+        android:padding="3dp"
+        tools:layout_editor_absoluteX="2dp"
+        tools:layout_editor_absoluteY="2dp">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textViewTitle"
@@ -49,52 +50,97 @@
             app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
 
 
-        <TextView
-            android:id="@+id/textViewDate"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:padding="3dp"
-            android:textColor="@color/black"
-            android:textSize="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textViewDateTitle"
-            app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/textViewDescription"
+            tools:layout_editor_absoluteX="0dp">
 
-        <TextView
-            android:id="@+id/textViewDateTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:padding="3dp"
-            android:text="@string/date_of_create"
-            android:textSize="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewDescription" />
+            <TextView
+                android:id="@+id/textViewDateOfCompletionTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:text="@string/dateOfCompletionTitle"
+                android:textSize="16dp" />
 
-        <TextView
-            android:id="@+id/textViewDateOfCompletionTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:padding="3dp"
-            android:text="@string/dateOfCompletionTitle"
-            android:textSize="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewDateTitle" />
+            <TextView
+                android:id="@+id/textViewDateOfCompletion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:textColor="@color/black"
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textViewDateOfCompletion"
-            android:layout_width="0dp"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#00E676"
+                android:minWidth="20dp"
+                android:minHeight="10dp"
+                android:padding="3dp"
+                android:text="Ред."
+                android:textSize="14dp"
+                app:cornerRadius="6dp"
+                app:strokeColor="#8B0000"
+                app:strokeWidth="3dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:padding="3dp"
-            android:textColor="@color/black"
-            android:textSize="16dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textViewDateOfCompletionTitle"
-            app:layout_constraintTop_toBottomOf="@+id/textViewDate" />
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="2dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+            <TextView
+                android:id="@+id/textViewDateTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:text="@string/date_of_create"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#FFC400"
+                android:minWidth="20dp"
+                android:minHeight="20dp"
+                android:padding="2dp"
+                android:text="Смотр."
+                android:textSize="14dp"
+                app:cornerRadius="6dp"
+                app:strokeColor="#8B0000"
+                app:strokeWidth="3dp" />
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
