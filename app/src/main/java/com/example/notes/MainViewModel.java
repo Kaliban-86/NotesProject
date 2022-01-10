@@ -10,23 +10,35 @@ import androidx.room.Database;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
 
 public class MainViewModel extends AndroidViewModel {
 
     private static NoteDatabase database;
     private LiveData<List<Note>> notes;
+    private  LiveData<Note> note;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
         database = NoteDatabase.getInstance(getApplication());
         notes = database.notesDao().getAllNotes();
+
+
     }
 
     public LiveData<List<Note>> getNotes() {
         return notes;
     }
 
+    public Note getByID (int id) throws ExecutionException, InterruptedException {
+        MainViewModel.GetByIDTask getByIDTask = new GetByIDTask();
+        getByIDTask.execute(id);
+        return  getByIDTask.get();
+    }
+
     public Note getNote(int id) {
+
+
         return Objects.requireNonNull(notes.getValue()).get(id);
     }
 
@@ -56,6 +68,21 @@ public class MainViewModel extends AndroidViewModel {
             return null;
         }
     }
+
+    public  static class GetByIDTask extends AsyncTask<Integer,Void,Note>{
+
+        @Override
+        protected Note doInBackground(Integer... integers) {
+
+            return database.notesDao().getById(integers[0]);
+        }
+
+
+    }
+
+
+
+
 
     public static class UpdateTask extends AsyncTask<Note, Void, Void> {
         @Override

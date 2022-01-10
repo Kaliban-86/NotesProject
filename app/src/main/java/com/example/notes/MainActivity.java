@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private NotesAdapter notesAdapter;
     private MainViewModel viewModel;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
                 intentToChangeNote.putExtra("noteSMonthOfCompletion", noteS.getMonthOfCompletion());
                 intentToChangeNote.putExtra("noteSDayOfCompletion", noteS.getDayOfCompletion());
                 startActivity(intentToChangeNote);
-
             }
 
             @Override
@@ -95,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(notesAdapter);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-
     }
 
     @SuppressLint("NotifyDataSetChanged")

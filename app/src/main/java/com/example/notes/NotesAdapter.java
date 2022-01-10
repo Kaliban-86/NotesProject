@@ -1,20 +1,15 @@
 package com.example.notes;
 
-import static com.example.notes.R.drawable.fon;
-import static com.example.notes.R.drawable.fontwo;
+
 
 import android.annotation.SuppressLint;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder> {
@@ -64,7 +59,9 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
                 colorID = holder.itemView.getResources().getColor(R.color.green);
                 break;
         }
-        holder.textViewTitle.setBackgroundColor(colorID);
+        holder.itemView.setBackgroundColor(colorID);
+        holder.textViewTitle.setTextColor(colorID);
+        //holder.textViewTitle.setBackgroundColor(colorID);
 
 //        Drawable drawable;
 //        drawable = holder.itemView.getResources().getDrawable(fontwo);

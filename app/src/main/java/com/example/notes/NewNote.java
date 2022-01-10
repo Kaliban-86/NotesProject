@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.concurrent.ExecutionException;
 
 public class NewNote extends AppCompatActivity {
 
@@ -59,7 +60,13 @@ public class NewNote extends AppCompatActivity {
         Bundle noteFields = getIntent().getExtras();
 
         if (noteFields != null) {
-            setNoteFieldsToOldNote(getOldNoteFields(noteFields));
+            try {
+                setNoteFieldsToOldNote(viewModel.getByID(noteFields.getInt("noteId")));
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         buttonSaveNewNote.setOnClickListener(view -> {
@@ -72,7 +79,7 @@ public class NewNote extends AppCompatActivity {
 
             if (isFeeld(newNoteTitle, newNoteDescription, yearOfCompletion, monthOfCompletion, dayOfCompletion) && (noteFields != null)) {
 
-                Note note = new Note(noteFields.getInt("noteId"),newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, simpleDateFormat.format(new Date()), yearOfCompletion, monthOfCompletion, dayOfCompletion);
+                Note note = new Note(noteFields.getInt("noteId"), newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, simpleDateFormat.format(new Date()), yearOfCompletion, monthOfCompletion, dayOfCompletion);
                 viewModel.updateNote(note);
                 Intent intentToMain = new Intent(this, MainActivity.class);
                 startActivity(intentToMain);
@@ -97,6 +104,10 @@ public class NewNote extends AppCompatActivity {
 
         textInputEditTextSetDate.setOnTouchListener((view, motionEvent) -> {
             dialogSetData.show();
+
+            dateOf = simpleDateFormat.format(new Date());
+            textInputEditTextSetDate.setText(dateOf);
+
             calendarView.setOnDateChangeListener((calendarView, i, i1, i2) -> {
                 yearOfCompletion = i;
                 monthOfCompletion = i1 + 1;
@@ -112,13 +123,6 @@ public class NewNote extends AppCompatActivity {
         return !title.isEmpty() && !description.isEmpty() && Y != 0 && M != 0 && D != 0;
     }
 
-    private Note getOldNoteFields(Bundle bundle) {
-        return new Note(bundle.getInt("noteId"),bundle.getString("noteSTitle")
-                , bundle.getString("noteSDescription"), bundle.getInt("noteSDayOfWeek")
-                , bundle.getInt("noteSPriority"), bundle.getString("noteSDate")
-                , bundle.getInt("noteSYearOfCompletion"), bundle.getInt("noteSMonthOfCompletion")
-                , bundle.getInt("noteSDayOfCompletion"));
-    }
 
     private void setNoteFieldsToOldNote(Note note) {
         textInputEditTextTitleOfNote.setText(note.getTitle());
@@ -128,11 +132,9 @@ public class NewNote extends AppCompatActivity {
     public void saveDate(View view) {
         Date currentDate = new Date();
         Calendar dateOfCompletion = new GregorianCalendar(yearOfCompletion, monthOfCompletion - 1, dayOfCompletion + 1);
-        if (currentDate.before(dateOfCompletion.getTime())) {
-            textInputEditTextSetDate.setText(dateOf);
-            dialogSetData.cancel();
-        } else {
-            Toast.makeText(this, "Выберите дату не позже текущей!", Toast.LENGTH_SHORT).show();
-        }
+
+        textInputEditTextSetDate.setText(dateOf);
+        dialogSetData.cancel();
+
     }
 }

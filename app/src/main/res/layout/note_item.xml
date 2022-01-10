@@ -8,16 +8,16 @@
     android:layout_marginTop="4dp"
     android:layout_marginEnd="7dp"
     android:layout_marginBottom="4dp"
-    android:backgroundTint="#8B0000"
+
     app:cardCornerRadius="3dp"
     app:cardElevation="2dp"
-    app:contentPadding="1dp">
+    app:contentPadding="2dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:padding="3dp"
+        android:padding="2dp"
         tools:layout_editor_absoluteX="2dp"
         tools:layout_editor_absoluteY="2dp">
 
@@ -25,12 +25,13 @@
             android:id="@+id/textViewTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
             android:gravity="center"
-            android:padding="5dp"
+            android:padding="0dp"
             android:textColor="@color/white"
             android:textSize="18dp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -39,10 +40,11 @@
             android:id="@+id/textViewDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
+            android:layout_margin="2dp"
             android:maxHeight="45dp"
             android:padding="3dp"
             android:textColor="@color/black"
+            android:textStyle="italic"
             android:textSize="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,69 +63,50 @@
             app:layout_constraintTop_toBottomOf="@+id/textViewDescription"
             tools:layout_editor_absoluteX="0dp">
 
-            <LinearLayout
+
+            <TextView
+                android:id="@+id/textViewDateTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="1dp"
-                android:layout_marginEnd="2dp"
-                android:background="@color/green"
-                android:orientation="vertical">
+                android:gravity="center"
+                android:background="@color/white"
+                android:text="@string/date_of_create"
+                android:textSize="14dp" />
 
-                <TextView
-                    android:id="@+id/textViewDateTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="3dp"
-                    android:paddingVertical="1dp"
-                    android:gravity="center"
-                    android:background="@color/white"
-                    android:text="@string/date_of_create"
-                    android:textSize="16dp" />
-
-                <TextView
+            <TextView
                     android:id="@+id/textViewDate"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
-                    android:paddingVertical="1dp"
-                    android:gravity="center"
+                    android:layout_weight="1"
                     android:background="@color/white"
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
-            </LinearLayout>
+                    android:textColor="@color/blue"
+                    android:textSize="14dp" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:padding="1dp"
-                android:background="@color/blue"
-                android:orientation="vertical">
+
+
 
                 <TextView
                     android:id="@+id/textViewDateOfCompletionTitle"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
-                    android:gravity="center"
+                    android:layout_weight="1"
                     android:background="@color/white"
                     android:text="@string/dateOfCompletionTitle"
-                    android:textSize="16dp" />
+                    android:textSize="14dp" />
 
                 <TextView
                     android:id="@+id/textViewDateOfCompletion"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
-                    android:gravity="center"
+                    android:layout_weight="1"
                     android:background="@color/white"
-                    android:textColor="@color/black"
-                    android:textSize="16dp"
+                    android:textColor="@color/red"
+                    android:textSize="14dp"
                     android:textStyle="bold" />
 
 
-            </LinearLayout>
+
 
         </LinearLayout>
 
