@@ -20,9 +20,7 @@ public class readNote extends AppCompatActivity {
     TextView textViewReadNoteDescription;
     Button buttonDeleteNote;
     Button buttonCancel;
-    Button buttonCChangeNote;
-    int noteID;
-    ConstraintLayout constraintLayout;
+    Button buttonChangeNote;
     private MainViewModel viewModel;
 
     @Override
@@ -30,32 +28,43 @@ public class readNote extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_note);
 
-
+        // скрываем actionBar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
         }
 
+        // инициализируем элементы:
+        // - поле для вывода названия заметки, поле для вывода описания заметки, кнопку "изменить", кнопку "удалить", кнопку "отмена"
+        // - ViewModel
         textViewReadNoteTitle = findViewById(R.id.textViewReadNoteTitle);
         textViewReadNoteDescription = findViewById(R.id.textViewReadNoteDescription);
         buttonDeleteNote = findViewById(R.id.buttonDeleteNote);
         buttonCancel = findViewById(R.id.buttonToMain);
-        buttonCChangeNote = findViewById(R.id.buttonChangeNote);
-        constraintLayout = findViewById(R.id.constraintlayout);
+        buttonChangeNote = findViewById(R.id.buttonChangeNote);
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
+        // получаем интент из MainActivity содержащий note.id
         Bundle noteFields = getIntent().getExtras();
+
+        // создаем интент для перехода в MainActivity
         Intent intentToMain = new Intent(readNote.this, MainActivity.class);
 
-        //viewModel.getNote(noteFields.getInt("noteId")).getTitle();
-
-
+        // если пришедший интен не пустой, то через метод getOldNoteFields получаем объект Note и
+        // с помощью метода setNoteFieldsToOldNote  устанавиливаем заголовок (note.title)  и описание заметки (note.description)
+        //  в textViewReadNoteTitle и textViewReadNoteDescription соответственно
         if (noteFields != null) {
             setNoteFieldsToOldNote(getOldNoteFields(noteFields));
         }
 
+        // декларируем переменную для хранения ID цвета для установки цвета тексту заголовка заметки
         int colorID;
+
+        // получаем значение приоритета из пришедшего интента через метод getOldNoteFields
+        assert noteFields != null;
         int priority = (getOldNoteFields(noteFields)).getPriority();
+
+        // инициализируем переменную colorID в соответствии с принятой системой цветов
         switch (priority) {
             case 1:
                 colorID = getResources().getColor(R.color.red);
@@ -68,51 +77,34 @@ public class readNote extends AppCompatActivity {
                 break;
         }
 
+        // устанавливаем цвет для тектса заголовка заметки
         textViewReadNoteTitle.setTextColor(colorID);
-        //constraintLayout.setBackgroundColor(colorID);
 
+        // реализация кнопки "удалить" (удаляем заметку, полученную с помощью меода getOldNoteFields)
         buttonDeleteNote.setOnClickListener(view -> {
-            assert noteFields != null;
             viewModel.deleteNote(getOldNoteFields(noteFields));
             startActivity(intentToMain);
         });
+
+        // реализация кнопки "отмена" (просто переход на MainActivity)
         buttonCancel.setOnClickListener(view -> {
             startActivity(intentToMain);
         });
-        Note note;
 
-
-        try {
-           note =  viewModel.getByID(noteFields.getInt("noteId"));
-            Toast.makeText(this, note.getDescription(), Toast.LENGTH_SHORT).show();
-            noteID = note.getId();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
-
-        buttonCChangeNote.setOnClickListener(view -> {
+        // реализация кнопки "изменить" (создаем интен для перехода в NewNote и передаем с ним note.id заметки которая пришла из MainActivity)
+        buttonChangeNote.setOnClickListener(view -> {
             Intent intentToNewNote = new Intent(readNote.this, NewNote.class);
-            intentToNewNote.putExtra("noteId",noteID);
+            intentToNewNote.putExtra("noteId", viewModel.getByID(noteFields.getInt("noteId")).getId());
             startActivity(intentToNewNote);
         });
     }
 
-    private Note getOldNoteFields(Bundle bundle) {
-
-        //Note note2 = viewModel.getByID(bundle.getInt("noteId"));
-
-        return new Note(bundle.getInt("noteId"),bundle.getString("noteSTitle")
-                , bundle.getString("noteSDescription"), bundle.getInt("noteSDayOfWeek")
-                , bundle.getInt("noteSPriority"), bundle.getString("noteSDate")
-                , bundle.getInt("noteSYearOfCompletion"), bundle.getInt("noteSMonthOfCompletion")
-                , bundle.getInt("noteSDayOfCompletion"));
-        //return note2;
+    // вспомогательный метод для получения из пришедшего интента объекта Note по его ID
+        private Note getOldNoteFields(Bundle bundle) {
+        return viewModel.getByID(bundle.getInt("noteId"));
     }
 
+    // вспомогательный метод для установки note.title и  note.description в поля textViewReadNoteTitle и textViewReadNoteDescription
     private void setNoteFieldsToOldNote(Note note) {
         textViewReadNoteTitle.setText(note.getTitle());
         textViewReadNoteDescription.setText(note.getDescription());

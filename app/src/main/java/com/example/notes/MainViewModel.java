@@ -30,10 +30,16 @@ public class MainViewModel extends AndroidViewModel {
         return notes;
     }
 
-    public Note getByID (int id) throws ExecutionException, InterruptedException {
-        MainViewModel.GetByIDTask getByIDTask = new GetByIDTask();
-        getByIDTask.execute(id);
-        return  getByIDTask.get();
+    public Note getByID (int id)  {
+        Note note = null;
+        try {
+            note = new GetByIDTask().execute(id).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return note;
     }
 
     public Note getNote(int id) {

@@ -44,6 +44,7 @@ public class NewNote extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_note);
+        // инициализируем нужные элементы
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         radioGroupPriority = findViewById(R.id.radioGroupPriority);
         buttonSaveNewNote = findViewById(R.id.buttonSaveNewNote);
@@ -51,22 +52,20 @@ public class NewNote extends AppCompatActivity {
         textInputEditTextSetDate = findViewById(R.id.textInputEditText);
         textInputEditTextTitleOfNote = findViewById(R.id.textInputEditTextTitleOfNote);
         textInputEditTextDescriptionOfNote = findViewById(R.id.textInputEditTextDescriptionOfNote);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
+        //  это диалог для вызова календаря для установки даты - разобраться позже
         dialogSetData = new Dialog(this);
         dialogSetData.setContentView(R.layout.dialog);
         calendarView = dialogSetData.findViewById(R.id.calendarViewSetData);
 
+        // получение объекта Bundle  из интента (содержит note.id  для получения  объекта  note из базы данных)
         Bundle noteFields = getIntent().getExtras();
 
+        // проверка что интен пришел не пустой, и если не пустой, то получение объекта note и установка из него информации
+        // с помощью метода setNoteFieldsToOldNote
         if (noteFields != null) {
-            try {
                 setNoteFieldsToOldNote(viewModel.getByID(noteFields.getInt("noteId")));
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
 
         buttonSaveNewNote.setOnClickListener(view -> {
@@ -77,22 +76,18 @@ public class NewNote extends AppCompatActivity {
             RadioButton radioButton = findViewById(radioButtonID);
             int newNotePriority = Integer.parseInt(radioButton.getText().toString());
 
-            if (isFeeld(newNoteTitle, newNoteDescription, yearOfCompletion, monthOfCompletion, dayOfCompletion) && (noteFields != null)) {
-
+            if (isFeeld(newNoteTitle, newNoteDescription, yearOfCompletion, monthOfCompletion, dayOfCompletion)  && (noteFields != null)) {
                 Note note = new Note(noteFields.getInt("noteId"), newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, simpleDateFormat.format(new Date()), yearOfCompletion, monthOfCompletion, dayOfCompletion);
                 viewModel.updateNote(note);
                 Intent intentToMain = new Intent(this, MainActivity.class);
                 startActivity(intentToMain);
 
             } else if (isFeeld(newNoteTitle, newNoteDescription, yearOfCompletion, monthOfCompletion, dayOfCompletion)) {
-
                 Note note = new Note(newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, simpleDateFormat.format(new Date()), yearOfCompletion, monthOfCompletion, dayOfCompletion);
                 viewModel.insertNote(note);
                 Intent intentToMain = new Intent(this, MainActivity.class);
                 startActivity(intentToMain);
-
             } else {
-
                 Toast.makeText(this, "Необходимо заполнить все поля!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -105,8 +100,8 @@ public class NewNote extends AppCompatActivity {
         textInputEditTextSetDate.setOnTouchListener((view, motionEvent) -> {
             dialogSetData.show();
 
-            dateOf = simpleDateFormat.format(new Date());
-            textInputEditTextSetDate.setText(dateOf);
+            //dateOf = simpleDateFormat.format(new Date());
+            textInputEditTextSetDate.setText(simpleDateFormat.format(new Date()));
 
             calendarView.setOnDateChangeListener((calendarView, i, i1, i2) -> {
                 yearOfCompletion = i;
@@ -123,10 +118,11 @@ public class NewNote extends AppCompatActivity {
         return !title.isEmpty() && !description.isEmpty() && Y != 0 && M != 0 && D != 0;
     }
 
-
+    // вспомогательный метод ля установки названия заметки и описания заметки в поля textInputEditTextTitleOfNote и textInputEditTextDescriptionOfNote
     private void setNoteFieldsToOldNote(Note note) {
         textInputEditTextTitleOfNote.setText(note.getTitle());
         textInputEditTextDescriptionOfNote.setText(note.getDescription());
+        textInputEditTextSetDate.setText(note.getDate());
     }
 
     public void saveDate(View view) {

@@ -60,7 +60,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonChangeNote"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="2dp"
@@ -71,11 +71,11 @@
             android:padding="1dp"
             app:strokeColor="#008000"
             app:strokeWidth="2dp"
-            android:text="Редактиовать" />
+            android:text="Изменить" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonDeleteNote"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="2dp"
@@ -85,11 +85,11 @@
             app:elevation="12dp"
             app:strokeColor="#8B0000"
             app:strokeWidth="2dp"
-            android:text="Удалить" />
+            android:text="@string/Delrte_button" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonToMain"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="2dp"

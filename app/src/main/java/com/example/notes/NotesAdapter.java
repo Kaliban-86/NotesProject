@@ -61,11 +61,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         }
         holder.itemView.setBackgroundColor(colorID);
         holder.textViewTitle.setTextColor(colorID);
-        //holder.textViewTitle.setBackgroundColor(colorID);
 
-//        Drawable drawable;
-//        drawable = holder.itemView.getResources().getDrawable(fontwo);
-//        holder.textViewDescription.setBackground(drawable);
 
     }
 

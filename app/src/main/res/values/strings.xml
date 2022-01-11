@@ -11,6 +11,7 @@
     <string name="dateOfCompletionTitle">Выполнить:</string>
     <string name="date_of_completion">Срок исполнения заметки</string>
     <string name="Cancel">Отмена</string>
+    <string name="Delrte_button">Удалить</string>
 
 
     <string-array name="days_of_week">

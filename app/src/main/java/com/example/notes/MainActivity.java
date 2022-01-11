@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private NotesAdapter notesAdapter;
     private MainViewModel viewModel;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,18 +57,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onNoteClick(int position) {
                 Note noteS = viewModel.getNote(position);
-
                 Intent intentToChangeNote = new Intent(MainActivity.this, readNote.class);
-                intentToChangeNote.putExtra("noteId",noteS.getId());
-                intentToChangeNote.putExtra("noteSPosition", position);
-                intentToChangeNote.putExtra("noteSTitle", noteS.getTitle());
-                intentToChangeNote.putExtra("noteSDescription", noteS.getDescription());
-                intentToChangeNote.putExtra("noteSDayOfWeek", noteS.getDayOfWeek());
-                intentToChangeNote.putExtra("noteSPriority", noteS.getPriority());
-                intentToChangeNote.putExtra("noteSDate", noteS.getDate());
-                intentToChangeNote.putExtra("noteSYearOfCompletion", noteS.getYearOfCompletion());
-                intentToChangeNote.putExtra("noteSMonthOfCompletion", noteS.getMonthOfCompletion());
-                intentToChangeNote.putExtra("noteSDayOfCompletion", noteS.getDayOfCompletion());
+                intentToChangeNote.putExtra("noteId", noteS.getId());
                 startActivity(intentToChangeNote);
             }
 
@@ -93,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(notesAdapter);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
