@@ -52,7 +52,10 @@ public class NewNote extends AppCompatActivity {
         textInputEditTextSetDate = findViewById(R.id.textInputEditText);
         textInputEditTextTitleOfNote = findViewById(R.id.textInputEditTextTitleOfNote);
         textInputEditTextDescriptionOfNote = findViewById(R.id.textInputEditTextDescriptionOfNote);
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormatCompleteDate = new SimpleDateFormat("dd-MM-yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormatD = new SimpleDateFormat("dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormatM = new SimpleDateFormat("MM");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormatY = new SimpleDateFormat("yyyy");
 
         //  это диалог для вызова календаря для установки даты - разобраться позже
         dialogSetData = new Dialog(this);
@@ -62,7 +65,7 @@ public class NewNote extends AppCompatActivity {
         // получение объекта Bundle  из интента (содержит note.id  для получения  объекта  note из базы данных)
         Bundle noteFields = getIntent().getExtras();
 
-        // проверка что интен пришел не пустой, и если не пустой, то получение объекта note и установка из него информации
+        // проверка что интен пришел не пустой, и если не пустой, то получение объекта note из базы данных и установка из него информации
         // с помощью метода setNoteFieldsToOldNote
         if (noteFields != null) {
                 setNoteFieldsToOldNote(viewModel.getByID(noteFields.getInt("noteId")));
@@ -77,13 +80,13 @@ public class NewNote extends AppCompatActivity {
             int newNotePriority = Integer.parseInt(radioButton.getText().toString());
 
             if (isFeeld(newNoteTitle, newNoteDescription, yearOfCompletion, monthOfCompletion, dayOfCompletion)  && (noteFields != null)) {
-                Note note = new Note(noteFields.getInt("noteId"), newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, simpleDateFormat.format(new Date()), yearOfCompletion, monthOfCompletion, dayOfCompletion);
+                Note note = new Note(noteFields.getInt("noteId"), newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, simpleDateFormatCompleteDate.format(new Date()), yearOfCompletion, monthOfCompletion, dayOfCompletion);
                 viewModel.updateNote(note);
                 Intent intentToMain = new Intent(this, MainActivity.class);
                 startActivity(intentToMain);
 
             } else if (isFeeld(newNoteTitle, newNoteDescription, yearOfCompletion, monthOfCompletion, dayOfCompletion)) {
-                Note note = new Note(newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, simpleDateFormat.format(new Date()), yearOfCompletion, monthOfCompletion, dayOfCompletion);
+                Note note = new Note(newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, simpleDateFormatCompleteDate.format(new Date()), yearOfCompletion, monthOfCompletion, dayOfCompletion);
                 viewModel.insertNote(note);
                 Intent intentToMain = new Intent(this, MainActivity.class);
                 startActivity(intentToMain);
@@ -99,9 +102,12 @@ public class NewNote extends AppCompatActivity {
 
         textInputEditTextSetDate.setOnTouchListener((view, motionEvent) -> {
             dialogSetData.show();
+            Date date = new Date();
 
-            //dateOf = simpleDateFormat.format(new Date());
-            textInputEditTextSetDate.setText(simpleDateFormat.format(new Date()));
+            yearOfCompletion = viewModel.getByID(noteFields.getInt("noteId")).getYearOfCompletion();
+            monthOfCompletion = viewModel.getByID(noteFields.getInt("noteId")).getMonthOfCompletion();
+            dayOfCompletion = viewModel.getByID(noteFields.getInt("noteId")).getDayOfCompletion();
+            dateOf = dayOfCompletion + "-" + monthOfCompletion + "-" + yearOfCompletion;
 
             calendarView.setOnDateChangeListener((calendarView, i, i1, i2) -> {
                 yearOfCompletion = i;
@@ -111,7 +117,6 @@ public class NewNote extends AppCompatActivity {
             });
             return true;
         });
-
     }
 
     private boolean isFeeld(String title, String description, int Y, int M, int D) {
@@ -122,13 +127,16 @@ public class NewNote extends AppCompatActivity {
     private void setNoteFieldsToOldNote(Note note) {
         textInputEditTextTitleOfNote.setText(note.getTitle());
         textInputEditTextDescriptionOfNote.setText(note.getDescription());
-        textInputEditTextSetDate.setText(note.getDate());
+        textInputEditTextSetDate.setText(note.getDateOfCompletion());
+        yearOfCompletion = note.getYearOfCompletion();
+        monthOfCompletion = note.getMonthOfCompletion();
+        dayOfCompletion = note.getDayOfCompletion();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(yearOfCompletion, monthOfCompletion - 1,dayOfCompletion);
+        calendarView.setDate(calendar.getTimeInMillis());
     }
 
     public void saveDate(View view) {
-        Date currentDate = new Date();
-        Calendar dateOfCompletion = new GregorianCalendar(yearOfCompletion, monthOfCompletion - 1, dayOfCompletion + 1);
-
         textInputEditTextSetDate.setText(dateOf);
         dialogSetData.cancel();
 

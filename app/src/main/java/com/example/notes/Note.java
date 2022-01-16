@@ -136,5 +136,8 @@ public class Note {
     public String getDate() {
         return date;
     }
+    public String getDateOfCompletion() {
 
+        return dayOfCompletion + "-" + monthOfCompletion + "-" + yearOfCompletion;
+    }
 }
