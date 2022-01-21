@@ -53,9 +53,10 @@ public class NewNote extends AppCompatActivity {
         textInputEditTextTitleOfNote = findViewById(R.id.textInputEditTextTitleOfNote);
         textInputEditTextDescriptionOfNote = findViewById(R.id.textInputEditTextDescriptionOfNote);
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormatCompleteDate = new SimpleDateFormat("dd-MM-yyyy");
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormatD = new SimpleDateFormat("dd");
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormatM = new SimpleDateFormat("MM");
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormatY = new SimpleDateFormat("yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormatCompleteD = new SimpleDateFormat("dd");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormatCompleteM = new SimpleDateFormat("MM");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormatCompleteY = new SimpleDateFormat("yyyy");
+
 
         //  это диалог для вызова календаря для установки даты - разобраться позже
         dialogSetData = new Dialog(this);
@@ -68,7 +69,7 @@ public class NewNote extends AppCompatActivity {
         // проверка что интен пришел не пустой, и если не пустой, то получение объекта note из базы данных и установка из него информации
         // с помощью метода setNoteFieldsToOldNote
         if (noteFields != null) {
-                setNoteFieldsToOldNote(viewModel.getByID(noteFields.getInt("noteId")));
+            setNoteFieldsToOldNote(viewModel.getByID(noteFields.getInt("noteId")));
         }
 
         buttonSaveNewNote.setOnClickListener(view -> {
@@ -79,7 +80,7 @@ public class NewNote extends AppCompatActivity {
             RadioButton radioButton = findViewById(radioButtonID);
             int newNotePriority = Integer.parseInt(radioButton.getText().toString());
 
-            if (isFeeld(newNoteTitle, newNoteDescription, yearOfCompletion, monthOfCompletion, dayOfCompletion)  && (noteFields != null)) {
+            if (isFeeld(newNoteTitle, newNoteDescription, yearOfCompletion, monthOfCompletion, dayOfCompletion) && (noteFields != null)) {
                 Note note = new Note(noteFields.getInt("noteId"), newNoteTitle, newNoteDescription, newNoteDayOfWeek, newNotePriority, simpleDateFormatCompleteDate.format(new Date()), yearOfCompletion, monthOfCompletion, dayOfCompletion);
                 viewModel.updateNote(note);
                 Intent intentToMain = new Intent(this, MainActivity.class);
@@ -102,11 +103,17 @@ public class NewNote extends AppCompatActivity {
 
         textInputEditTextSetDate.setOnTouchListener((view, motionEvent) -> {
             dialogSetData.show();
-            Date date = new Date();
 
-            yearOfCompletion = viewModel.getByID(noteFields.getInt("noteId")).getYearOfCompletion();
-            monthOfCompletion = viewModel.getByID(noteFields.getInt("noteId")).getMonthOfCompletion();
-            dayOfCompletion = viewModel.getByID(noteFields.getInt("noteId")).getDayOfCompletion();
+            if (noteFields != null) {
+                yearOfCompletion = viewModel.getByID(noteFields.getInt("noteId")).getYearOfCompletion();
+                monthOfCompletion = viewModel.getByID(noteFields.getInt("noteId")).getMonthOfCompletion();
+                dayOfCompletion = viewModel.getByID(noteFields.getInt("noteId")).getDayOfCompletion();
+            } else {
+                Date date = new Date();
+                yearOfCompletion = Integer.parseInt(simpleDateFormatCompleteY.format(date));
+                monthOfCompletion = Integer.parseInt(simpleDateFormatCompleteM.format(date));;
+                dayOfCompletion = Integer.parseInt(simpleDateFormatCompleteD.format(date));;
+            }
             dateOf = dayOfCompletion + "-" + monthOfCompletion + "-" + yearOfCompletion;
 
             calendarView.setOnDateChangeListener((calendarView, i, i1, i2) -> {
@@ -132,13 +139,12 @@ public class NewNote extends AppCompatActivity {
         monthOfCompletion = note.getMonthOfCompletion();
         dayOfCompletion = note.getDayOfCompletion();
         Calendar calendar = Calendar.getInstance();
-        calendar.set(yearOfCompletion, monthOfCompletion - 1,dayOfCompletion);
+        calendar.set(yearOfCompletion, monthOfCompletion - 1, dayOfCompletion);
         calendarView.setDate(calendar.getTimeInMillis());
     }
 
     public void saveDate(View view) {
         textInputEditTextSetDate.setText(dateOf);
         dialogSetData.cancel();
-
     }
 }
